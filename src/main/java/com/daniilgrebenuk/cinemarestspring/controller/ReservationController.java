@@ -1,6 +1,7 @@
 package com.daniilgrebenuk.cinemarestspring.controller;
 
 import com.daniilgrebenuk.cinemarestspring.dtos.OrderDto;
+import com.daniilgrebenuk.cinemarestspring.exception.InvalidOrderException;
 import com.daniilgrebenuk.cinemarestspring.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,5 +45,11 @@ public class ReservationController {
             error -> ((FieldError) error).getField(),
             error -> Optional.ofNullable(error.getDefaultMessage()).orElse("No error specified!")
         ));
+  }
+
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ExceptionHandler(InvalidOrderException.class)
+  public String handleValidationExceptions(InvalidOrderException ex) {
+    return ex.getMessage();
   }
 }

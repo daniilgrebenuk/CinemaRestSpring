@@ -31,4 +31,8 @@ public class Schedule {
   private Movie movie;
 
   private LocalDateTime time;
+
+  public Long getIdSchedule() {
+    return idSchedule;
+  }
 }

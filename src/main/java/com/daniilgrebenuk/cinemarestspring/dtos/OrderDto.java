@@ -25,7 +25,7 @@ public record OrderDto(
 
     String hallName,
 
-    List<SeatDto> seats
+    List<TicketDto> tickets
 ) {
 
 }

@@ -80,7 +80,10 @@ public class H2Config {
   }
 
   private void initSchedules() {
-    LocalDateTime localDateTime = LocalDateTime.now().minusMinutes(150);
+    LocalDateTime localDateTime = LocalDateTime.now()
+        .withNano(0)
+        .withSecond(0)
+        .minusMinutes(150);
     List<Movie> movies = movieRepository.findAll();
     List<Hall> halls = hallRepository.findAll();
     int moviesCounter = 0;

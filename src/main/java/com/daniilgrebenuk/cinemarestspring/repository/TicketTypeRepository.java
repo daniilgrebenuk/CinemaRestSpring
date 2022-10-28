@@ -3,6 +3,8 @@ package com.daniilgrebenuk.cinemarestspring.repository;
 import com.daniilgrebenuk.cinemarestspring.model.TicketType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TicketTypeRepository extends JpaRepository<TicketType, Long> {
+import java.util.Optional;
 
+public interface TicketTypeRepository extends JpaRepository<TicketType, Long> {
+  Optional<TicketType> findTicketTypeByType(String type);
 }
