@@ -84,7 +84,7 @@ Content-Type: application/json
 {
   "customerName": "Bob",
   "customerSurname": "Bob",
-  "dateAndTime": "28-10-2022 20:10",
+  "dateAndTime": "28-10-2022 20:22",
   "movieTitle": "ONE PIECE",
   "hallName": "Red 3D",
   "tickets": [
