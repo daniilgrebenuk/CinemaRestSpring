@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/reserve")
+@RequestMapping("/api/reserve")
 public class ReservationController {
 
   private final ReservationService reservationService;

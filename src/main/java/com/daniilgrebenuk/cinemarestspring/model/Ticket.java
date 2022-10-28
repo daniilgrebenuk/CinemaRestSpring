@@ -25,16 +25,14 @@ public class Ticket {
   private Seat seat;
 
   @ManyToOne
-  @JoinColumn(name = "idSchedule")
-  private Schedule schedule;
-
-  @ManyToOne
   @JoinColumn(name = "idTicketType")
   private TicketType ticketType;
 
-  private String customerName;
+  @ManyToOne
+  @JoinColumn(name = "idOrder")
+  private Order order;
 
-  private String customerSurname;
+  private String uniqueCode;
 
   public Long getIdTicket() {
     return idTicket;
@@ -52,14 +50,6 @@ public class Ticket {
     this.seat = seat;
   }
 
-  public Schedule getSchedule() {
-    return schedule;
-  }
-
-  public void setSchedule(Schedule schedule) {
-    this.schedule = schedule;
-  }
-
   public TicketType getTicketType() {
     return ticketType;
   }
@@ -68,20 +58,20 @@ public class Ticket {
     this.ticketType = ticketType;
   }
 
-  public String getCustomerName() {
-    return customerName;
+  public Order getOrder() {
+    return order;
   }
 
-  public void setCustomerName(String customerName) {
-    this.customerName = customerName;
+  public void setOrder(Order order) {
+    this.order = order;
   }
 
-  public String getCustomerSurname() {
-    return customerSurname;
+  public String getUniqueCode() {
+    return uniqueCode;
   }
 
-  public void setCustomerSurname(String customerSurname) {
-    this.customerSurname = customerSurname;
+  public void setUniqueCode(String uniqueCode) {
+    this.uniqueCode = uniqueCode;
   }
 
   @Override
@@ -102,10 +92,9 @@ public class Ticket {
     return "Ticket{" +
         "idTicket=" + idTicket +
         ", seat=" + seat +
-        ", schedule=" + schedule +
         ", ticketType=" + ticketType +
-        ", customerName='" + customerName + '\'' +
-        ", customerSurname='" + customerSurname + '\'' +
+        ", order=" + order +
+        ", uniqueCode='" + uniqueCode + '\'' +
         '}';
   }
 }

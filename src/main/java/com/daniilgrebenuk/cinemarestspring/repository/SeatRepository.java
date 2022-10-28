@@ -16,7 +16,8 @@ public interface SeatRepository extends JpaRepository<Seat, Long> {
     EXCEPT
     SELECT seat.* FROM Seat seat
                 JOIN Ticket t ON t.ID_SEAT = seat.ID_SEAT
-                JOIN Schedule s ON t.ID_SCHEDULE = s.ID_SCHEDULE
+                JOIN ORDERS o ON o.ID_ORDER = t.ID_ORDER
+                JOIN SCHEDULE s ON o.ID_SCHEDULE = s.ID_SCHEDULE
     WHERE s.ID_SCHEDULE = ?1
 """, nativeQuery = true)
   List<Seat> findAllAvailableSeatsByIdSchedule(Long scheduleId);

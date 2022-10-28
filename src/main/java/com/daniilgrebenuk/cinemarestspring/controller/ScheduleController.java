@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
@@ -13,13 +14,18 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 @RestController
+@RequestMapping("/api/schedules")
 @RequiredArgsConstructor
 public class ScheduleController {
 
   private final ScheduleService scheduleService;
 
-  @GetMapping
-  public ResponseEntity<?> getSchedulesBetweenTwoDate(@Param("date") String date, @Param("timeFrom") String timeFrom, @Param("timeTo") String timeTo) {
+  @GetMapping("/all")
+  public ResponseEntity<?> getSchedulesBetweenTwoDate(
+      @Param("date") String date,
+      @Param("timeFrom") String timeFrom,
+      @Param("timeTo") String timeTo)
+  {
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(TimePatternConstants.LOCAL_DATE_PATTER);
     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(TimePatternConstants.LOCAL_TIME_PATTER);
 
