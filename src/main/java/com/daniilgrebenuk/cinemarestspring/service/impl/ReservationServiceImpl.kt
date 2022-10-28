@@ -76,7 +76,7 @@ class ReservationServiceImpl(
     }
 
     private fun findScheduleByOrderDto(orderDto: OrderDto): Schedule {
-        return scheduleRepository.findScheduleByMovie_TitleAndHall_NameAndTime(
+        return scheduleRepository.findScheduleByMovieTitleAndHallNameAndTime(
             orderDto.movieTitle,
             orderDto.hallName,
             orderDto.dateAndTime
