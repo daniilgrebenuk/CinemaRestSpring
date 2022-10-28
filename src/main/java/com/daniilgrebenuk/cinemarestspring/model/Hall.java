@@ -14,6 +14,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Hall {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long idHall;

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DtoConverter {
+
   public ScheduleDto scheduleDtoFromSchedule(Schedule schedule) {
     return new ScheduleDto(
         schedule.getMovie().getTitle(),

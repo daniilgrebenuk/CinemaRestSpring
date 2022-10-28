@@ -10,17 +10,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Pattern;
-import java.util.List;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 public class Ticket {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long idTicket;
@@ -37,11 +34,7 @@ public class Ticket {
   @JoinColumn(name = "idTicketType")
   private TicketType ticketType;
 
-  @Min(3)
-  @Pattern(regexp = "[A-ZŻŹĆĄŚĘŁÓŃ][a-zżźćńółęąś]+")
   private String customerName;
 
-  @Min(3)
-  @Pattern(regexp = "[A-ZŻŹĆĄŚĘŁÓŃ][a-zżźćńółęąś]+(-[A-ZŻŹĆĄŚĘŁÓŃ][a-zżźćńółęąś]+)?")
   private String customerSurname;
 }
