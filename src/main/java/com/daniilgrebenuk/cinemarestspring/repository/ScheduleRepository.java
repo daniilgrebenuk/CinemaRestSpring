@@ -18,5 +18,5 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
       """)
   List<Schedule> findAllScheduleBetweenTwoTimeStampOrderByMovieTitleAndTime(LocalDateTime from, LocalDateTime to);
 
-  Optional<Schedule> findScheduleByMovieTitleAndHallNameAndTime(String movieTitle, String hallName, LocalDateTime time);
+  Optional<Schedule> findScheduleByHallNameAndTime(String hallName, LocalDateTime time);
 }

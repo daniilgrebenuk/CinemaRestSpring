@@ -84,15 +84,14 @@ Content-Type: application/json
 {
   "customerName": "Bob",
   "customerSurname": "Bob",
-  "dateAndTime": "28-10-2022 20:32",
-  "movieTitle": "ONE PIECE",
+  "dateAndTime": "28-10-2022 20:44",
   "hallName": "Red 3D",
   "tickets": [
     {
       "ticketType": "adult",
       "seat": {
         "seatRow": 5,
-        "seatNumber": 5
+        "seatNumber": 4
       }
     }
   ]

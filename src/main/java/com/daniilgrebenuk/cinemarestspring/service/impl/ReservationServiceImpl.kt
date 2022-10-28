@@ -24,6 +24,7 @@ class ReservationServiceImpl(
 
     override fun reserveTickets(orderDto: OrderDto) {
         verifyTime(orderDto)
+        verifyTicketsSize(orderDto)
         val schedule = findScheduleByOrderDto(orderDto)
         val availableSeats = seatRepository.findAllAvailableSeatsByIdSchedule(schedule.idSchedule)
         val orderedSeats = orderDto.tickets.map { it.seat }.toSet()
@@ -44,6 +45,12 @@ class ReservationServiceImpl(
                 this.uniqueCode = encoder.encodeToString(nextBytes(15)).take(30)
             }
             ticketRepository.save(ticket)
+        }
+    }
+
+    private fun verifyTicketsSize(orderDto: OrderDto) {
+        if (orderDto.tickets.size == 0) {
+            throw InvalidOrderException("You must select at least one seat!")
         }
     }
 
@@ -76,8 +83,7 @@ class ReservationServiceImpl(
     }
 
     private fun findScheduleByOrderDto(orderDto: OrderDto): Schedule {
-        return scheduleRepository.findScheduleByMovieTitleAndHallNameAndTime(
-            orderDto.movieTitle,
+        return scheduleRepository.findScheduleByHallNameAndTime(
             orderDto.hallName,
             orderDto.dateAndTime
         ).orElseThrow { InvalidOrderException("There is no schedule suitable for this order!") }
