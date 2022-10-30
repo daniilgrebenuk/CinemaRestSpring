@@ -16,11 +16,11 @@ public interface SeatRepository extends JpaRepository<Seat, Long> {
     EXCEPT
     SELECT seat.* FROM Seat seat
                 JOIN Ticket t ON t.ID_SEAT = seat.ID_SEAT
-                JOIN ORDERS o ON o.ID_ORDER = t.ID_ORDER
+                JOIN RESERVATION o ON o.ID_RESERVATION = t.ID_RESERVATION
                 JOIN SCHEDULE s ON o.ID_SCHEDULE = s.ID_SCHEDULE
     WHERE s.ID_SCHEDULE = ?1
 """, nativeQuery = true)
-  List<Seat> findAllAvailableSeatsByIdSchedule(Long scheduleId);
+  List<Seat> findAllAvailableSeatsByIdSchedule(Long idSchedule);
 
-  List<Seat> findAllByHallName(String hallName);
+  List<Seat> findAllByHallIdHall(Long idHall);
 }

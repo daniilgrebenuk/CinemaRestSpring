@@ -1,6 +1,7 @@
 package com.daniilgrebenuk.cinemarestspring.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
@@ -9,8 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import java.util.Objects;
 
+@Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,8 +30,8 @@ public class Ticket {
   private TicketType ticketType;
 
   @ManyToOne
-  @JoinColumn(name = "idOrder")
-  private Order order;
+  @JoinColumn(name = "idReservation")
+  private Reservation reservation;
 
   private String uniqueCode;
 
@@ -58,12 +59,12 @@ public class Ticket {
     this.ticketType = ticketType;
   }
 
-  public Order getOrder() {
-    return order;
+  public Reservation getReservation() {
+    return reservation;
   }
 
-  public void setOrder(Order order) {
-    this.order = order;
+  public void setReservation(Reservation reservation) {
+    this.reservation = reservation;
   }
 
   public String getUniqueCode() {
@@ -72,29 +73,5 @@ public class Ticket {
 
   public void setUniqueCode(String uniqueCode) {
     this.uniqueCode = uniqueCode;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    Ticket ticket = (Ticket) o;
-    return Objects.equals(idTicket, ticket.idTicket);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(idTicket);
-  }
-
-  @Override
-  public String toString() {
-    return "Ticket{" +
-        "idTicket=" + idTicket +
-        ", seat=" + seat +
-        ", ticketType=" + ticketType +
-        ", order=" + order +
-        ", uniqueCode='" + uniqueCode + '\'' +
-        '}';
   }
 }

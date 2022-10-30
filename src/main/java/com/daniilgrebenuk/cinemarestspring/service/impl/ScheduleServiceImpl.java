@@ -21,11 +21,11 @@ public class ScheduleServiceImpl implements ScheduleService {
   private final DtoConverter dtoConverter;
 
   @Override
-  public List<ScheduleDto> findAllSchedulesByDayAndTimeFromAndTimeTo(LocalDate date, LocalTime timeFrom, LocalTime timeTo) {
+  public List<ScheduleDto> findAllSchedulesByDayAndTimeFromAndTimeTo(LocalDateTime timeFrom, LocalDateTime timeTo) {
     return scheduleRepository
         .findAllScheduleBetweenTwoTimeStampOrderByMovieTitleAndTime(
-            maxOfLocalDateTime(LocalDateTime.of(date, timeFrom), LocalDateTime.now()).plusMinutes(15),
-            LocalDateTime.of(date, timeTo)
+            maxOfLocalDateTime(timeFrom, LocalDateTime.now()).plusMinutes(15),
+            timeTo
         )
         .stream()
         .map(dtoConverter::scheduleDtoFromSchedule)

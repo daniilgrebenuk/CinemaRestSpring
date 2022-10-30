@@ -35,4 +35,12 @@ public class Schedule {
   public Long getIdSchedule() {
     return idSchedule;
   }
+
+  public Hall getHall() {
+    return hall;
+  }
+
+  public LocalDateTime getTime() {
+    return time;
+  }
 }

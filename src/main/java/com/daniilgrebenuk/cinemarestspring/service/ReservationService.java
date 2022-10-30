@@ -1,8 +1,9 @@
 package com.daniilgrebenuk.cinemarestspring.service;
 
-import com.daniilgrebenuk.cinemarestspring.dtos.OrderDto;
+import com.daniilgrebenuk.cinemarestspring.dtos.ConfirmationDto;
+import com.daniilgrebenuk.cinemarestspring.dtos.ReservationDto;
 
 public interface ReservationService {
 
-  void reserveTickets(OrderDto orderDto);
+  ConfirmationDto reserveTickets(ReservationDto reservationDto);
 }

@@ -1,16 +1,16 @@
 package com.daniilgrebenuk.cinemarestspring.service.impl
 
-import com.daniilgrebenuk.cinemarestspring.dtos.OrderDto
+import com.daniilgrebenuk.cinemarestspring.dtos.ConfirmationDto
+import com.daniilgrebenuk.cinemarestspring.dtos.ReservationDto
 import com.daniilgrebenuk.cinemarestspring.dtos.SeatDto
-import com.daniilgrebenuk.cinemarestspring.exception.InvalidOrderException
+import com.daniilgrebenuk.cinemarestspring.exception.InvalidReservationException
 import com.daniilgrebenuk.cinemarestspring.model.*
 import com.daniilgrebenuk.cinemarestspring.repository.*
 import com.daniilgrebenuk.cinemarestspring.service.ReservationService
 import com.daniilgrebenuk.cinemarestspring.util.DtoConverter
+import com.daniilgrebenuk.cinemarestspring.util.GlobalConstants
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
-import java.util.*
-import kotlin.random.Random.Default.nextBytes
 
 @Service
 class ReservationServiceImpl(
@@ -18,75 +18,90 @@ class ReservationServiceImpl(
     private val ticketRepository: TicketRepository,
     private val ticketTypeRepository: TicketTypeRepository,
     private val seatRepository: SeatRepository,
-    private val orderRepository: OrderRepository,
+    private val reservationRepository: ReservationRepository,
     private val dtoConverter: DtoConverter,
 ) : ReservationService {
 
-    override fun reserveTickets(orderDto: OrderDto) {
-        verifyTime(orderDto)
-        verifyTicketsSize(orderDto)
-        val schedule = findScheduleByOrderDto(orderDto)
+    override fun reserveTickets(reservationDto: ReservationDto): ConfirmationDto {
+        verifyTicketsSize(reservationDto)
+
+        val schedule = findScheduleByReservationDtoAndVerifyTime(reservationDto)
+
         val availableSeats = seatRepository.findAllAvailableSeatsByIdSchedule(schedule.idSchedule)
-        val orderedSeats = orderDto.tickets.map { it.seat }.toSet()
+        val reservedSeats = reservationDto.tickets.map { it.seat }.toSet()
         verifySeats(
-            seatsToReserve = orderedSeats,
+            seatsToReserve = reservedSeats,
             availableSeats = availableSeats.map { dtoConverter.seatDtoFromSeat(it) }.toSet(),
-            allHallSeats = findSeatsByOrderDto(orderDto).map { dtoConverter.seatDtoFromSeat(it) }.toSet()
+            allHallSeats = findSeatsByHall(schedule.hall).map { dtoConverter.seatDtoFromSeat(it) }.toSet()
         )
-        val ticketTypes = findAllTicketTypesAndVerifyTicketTypeInOrder(orderDto)
+        val ticketTypes = findAllTicketTypesAndVerifyInReservation(reservationDto)
 
-        val order = createOrderByOrderDtoAndSchedule(orderDto, schedule)
-        val encoder = Base64.getEncoder()
-        orderDto.tickets.forEach { ticketDto ->
-            val ticket = Ticket().apply {
-                this.seat = availableSeats.first { it.seatRow == ticketDto.seat.seatRow && it.seatNumber == ticketDto.seat.seatNumber }
-                this.ticketType = ticketTypes.first { it.type == ticketDto.ticketType }
-                this.order = order
-                this.uniqueCode = encoder.encodeToString(nextBytes(15)).take(30)
+        val reservation = createReservationByReservationDtoAndSchedule(reservationDto, schedule)
+        var totalPrice = 0.0
+        reservationDto.tickets.forEach { ticketDto ->
+            ticketRepository.save(
+                Ticket().apply {
+                    this.seat = availableSeats.first { it.seatRow == ticketDto.seat.seatRow && it.seatNumber == ticketDto.seat.seatNumber }
+                    this.ticketType = ticketTypes.first { it.type == ticketDto.ticketType }.also { totalPrice += it.price }
+                    this.reservation = reservation
+                }
+            )
+        }
+        return ConfirmationDto(totalPrice, calculateExpirationDate(schedule))
+    }
+
+    private fun calculateExpirationDate(schedule: Schedule): LocalDateTime {
+        val endOfReservation = schedule.time.minusMinutes(15)
+
+        return LocalDateTime
+            .now()
+            .plusHours(GlobalConstants.EXPIRATION_TIME_IN_HOURS)
+            .let {
+                if (it < endOfReservation)
+                    it
+                else
+                    endOfReservation
             }
-            ticketRepository.save(ticket)
+    }
+
+    private fun verifyTicketsSize(reservationDto: ReservationDto) {
+        if (reservationDto.tickets.size == 0) {
+            throw InvalidReservationException("You must select at least one seat!")
         }
     }
 
-    private fun verifyTicketsSize(orderDto: OrderDto) {
-        if (orderDto.tickets.size == 0) {
-            throw InvalidOrderException("You must select at least one seat!")
-        }
-    }
-
-    private fun createOrderByOrderDtoAndSchedule(orderDto: OrderDto, schedule: Schedule): Order {
-        return orderRepository.save(Order().apply {
+    private fun createReservationByReservationDtoAndSchedule(reservationDto: ReservationDto, schedule: Schedule): Reservation {
+        return reservationRepository.save(Reservation().apply {
             this.schedule = schedule
-            this.customerName = orderDto.customerName
-            this.customerSurname = orderDto.customerSurname
+            this.customerName = reservationDto.customerName
+            this.customerSurname = reservationDto.customerSurname
         })
     }
 
-    private fun verifyTime(orderDto: OrderDto) {
-        if (orderDto.dateAndTime < LocalDateTime.now().plusMinutes(15)) {
-            throw InvalidOrderException("Tickets can only be purchased 15 minutes before the start!")
+    private fun verifyTime(schedule: Schedule) {
+        if (schedule.time < LocalDateTime.now().plusMinutes(15)) {
+            throw InvalidReservationException("Tickets can only be purchased 15 minutes before the start!")
         }
     }
 
-    private fun findAllTicketTypesAndVerifyTicketTypeInOrder(orderDto: OrderDto): List<TicketType> {
+    private fun findAllTicketTypesAndVerifyInReservation(reservationDto: ReservationDto): List<TicketType> {
         val ticketTypeErrors = ArrayList<String>()
         return ticketTypeRepository.findAll().also { ticketTypes ->
-            orderDto.tickets.map { it.ticketType }.forEach { ticketType ->
+            reservationDto.tickets.map { it.ticketType }.forEach { ticketType ->
                 if (ticketTypes.none { it.type == ticketType }) {
                     ticketTypeErrors += ticketType
                 }
             }
             if (ticketTypeErrors.size != 0) {
-                throw InvalidOrderException("Invalid ticket types specified: $ticketTypeErrors")
+                throw InvalidReservationException("Invalid ticket types specified: $ticketTypeErrors")
             }
         }
     }
 
-    private fun findScheduleByOrderDto(orderDto: OrderDto): Schedule {
-        return scheduleRepository.findScheduleByHallNameAndTime(
-            orderDto.hallName,
-            orderDto.dateAndTime
-        ).orElseThrow { InvalidOrderException("There is no schedule suitable for this order!") }
+    private fun findScheduleByReservationDtoAndVerifyTime(reservationDto: ReservationDto): Schedule {
+        return scheduleRepository.findById(reservationDto.idSchedule)
+            .orElseThrow { InvalidReservationException("There is no schedule suitable for this reservation!") }
+            .also { verifyTime(it) }
     }
 
     private fun verifySeats(seatsToReserve: Set<SeatDto>, availableSeats: Set<SeatDto>, allHallSeats: Set<SeatDto>) {
@@ -94,7 +109,7 @@ class ReservationServiceImpl(
 
         val availableAfterPurchase = availableSeats - seatsToReserve
         if (hasEmptySeatBetweenTwoReserved((allHallSeats - availableAfterPurchase).toList())) {
-            throw InvalidOrderException("You cannot leave an available seat between two reserved seats!")
+            throw InvalidReservationException("You cannot leave an available seat between two reserved seats!")
         }
     }
 
@@ -105,7 +120,7 @@ class ReservationServiceImpl(
                 errorSeats += it
         }
         if (errorSeats.size != 0) {
-            throw InvalidOrderException("Input seats are already reserved: $errorSeats")
+            throw InvalidReservationException("Input seats are already reserved: $errorSeats")
         }
     }
 
@@ -121,10 +136,10 @@ class ReservationServiceImpl(
         return false
     }
 
-    private fun findSeatsByOrderDto(orderDto: OrderDto): List<Seat> {
-        return seatRepository.findAllByHallName(orderDto.hallName).also {
+    private fun findSeatsByHall(hall: Hall): List<Seat> {
+        return seatRepository.findAllByHallIdHall(hall.idHall).also {
             if (it.isEmpty()) {
-                throw InvalidOrderException("Invalid hall name specified: ${orderDto.hallName}")
+                throw InvalidReservationException("Hall with id: \"${hall.idHall}\" doesn't exist!")
             }
         }
     }

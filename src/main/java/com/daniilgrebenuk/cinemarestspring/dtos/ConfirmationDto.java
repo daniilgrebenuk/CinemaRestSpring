@@ -5,11 +5,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
 
-public record ScheduleDto(
-    Long idSchedule,
-    String hallName,
-    String movieTitle,
-    @JsonFormat(pattern = GlobalConstants.LOCAL_DATE_TIME_PATTER) LocalDateTime time
-) {
+public record ConfirmationDto (
+    Double totalSum,
 
-}
+    @JsonFormat(pattern = GlobalConstants.LOCAL_DATE_TIME_PATTER)
+    LocalDateTime expireDate
+){ }

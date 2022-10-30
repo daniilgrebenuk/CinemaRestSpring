@@ -1,0 +1,45 @@
+GET http://localhost:8080/api/schedules/all/range/?timeFrom=01-01-2022 0:00&timeTo=31-12-2022 23:59
+
+> {%
+client.global.set("idSchedule", response.body[2].idSchedule)
+%}
+
+###
+GET http://localhost:8080/api/hall/schedule/{{idSchedule}}
+
+> {%
+
+%}
+
+###
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": "{{idSchedule}}",
+  "tickets": [
+    {
+      "ticketType": "adult",
+      "seat": {
+        "seatRow": 1,
+        "seatNumber": 1
+      }
+    },
+    {
+      "ticketType": "student",
+      "seat": {
+        "seatRow": 1,
+        "seatNumber": 2
+      }
+    },
+    {
+      "ticketType": "child",
+      "seat": {
+        "seatRow": 1,
+        "seatNumber": 3
+      }
+    }
+  ]
+}

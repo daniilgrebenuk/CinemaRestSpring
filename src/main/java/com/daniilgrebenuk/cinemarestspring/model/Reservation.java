@@ -14,14 +14,14 @@ import javax.persistence.Table;
 
 @Data
 @Entity
-@Table(name = "Orders")
+@Table(name = "Reservation")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Order {
+public class Reservation {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long idOrder;
+  private Long idReservation;
 
   @ManyToOne
   @JoinColumn(name = "idSchedule")
@@ -30,12 +30,12 @@ public class Order {
   private String customerName;
   private String customerSurname;
 
-  public Long getIdOrder() {
-    return idOrder;
+  public Long getIdReservation() {
+    return idReservation;
   }
 
-  public void setIdOrder(Long idOrder) {
-    this.idOrder = idOrder;
+  public void setIdReservation(Long idOrder) {
+    this.idReservation = idOrder;
   }
 
   public Schedule getSchedule() {

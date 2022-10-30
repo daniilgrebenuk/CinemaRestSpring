@@ -69,9 +69,9 @@ public class H2Config {
 
   private void initHalls() {
     hallRepository.saveAll(List.of(
-        new Hall(null, "Red 3D"),
-        new Hall(null, "Green"),
-        new Hall(null, "Blue")
+        new Hall(null, "Red 3D", null),
+        new Hall(null, "Green", null),
+        new Hall(null, "Blue", null)
     ));
   }
 
