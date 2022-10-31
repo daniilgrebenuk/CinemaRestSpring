@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler({ InvalidReservationException.class, DataNotFoundException.class })
-  public ResponseEntity<String> handleInvalidReservationException(InvalidReservationException ex) {
-    return ResponseEntity.badRequest().body(ex.getMessage());
+  public ResponseEntity<Map<String, String>> handleInvalidReservationException(RuntimeException ex) {
+    return ResponseEntity.badRequest().body(Map.of("errorMessage", ex.getMessage()));
   }
 }

@@ -63,6 +63,8 @@ public class H2Config {
     movieRepository.saveAll(List.of(
         new Movie(null, "BLACK ADAM"),
         new Movie(null, "ONE PIECE"),
+        new Movie(null, "NEL I TAJEMNICA KUROKOTA"),
+        new Movie(null, "ANIA"),
         new Movie(null, "UŚMIECHNIJ SIĘ")
     ));
   }
@@ -83,13 +85,13 @@ public class H2Config {
     LocalDateTime localDateTime = LocalDateTime.now()
         .withNano(0)
         .withSecond(0)
-        .minusMinutes(150);
+        .minusMinutes(55);
     List<Movie> movies = movieRepository.findAll();
     List<Hall> halls = hallRepository.findAll();
     int moviesCounter = 0;
 
-    for (Hall hall : halls) {
-      for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 4; i++) {
+      for (Hall hall : halls) {
         if (moviesCounter == movies.size()) {
           moviesCounter = 0;
         }
@@ -98,7 +100,7 @@ public class H2Config {
             movies.get(moviesCounter++),
             localDateTime
         );
-        localDateTime = localDateTime.plusMinutes(300);
+        localDateTime = localDateTime.plusMinutes(40);
       }
     }
   }

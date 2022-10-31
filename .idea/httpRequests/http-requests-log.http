@@ -4,20 +4,79 @@ Content-Type: application/json
 {
   "customerName": "Bob",
   "customerSurname": "Bob",
-  "idSchedule": "5",
+  "idSchedule": 3,
   "tickets": [
     {
-      "ticketType": "adult",
+      "ticketType": "child",
+      "seat": {
+        "seatRow": 9,
+        "seatNumber": 1
+      }
+    }
+  ]
+}
+
+<> 2022-10-31T144408-6.400.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": [
+    {
+      "ticketType": "child",
+      "seat": {
+        "seatRow": 9,
+        "seatNumber": 1
+      }
+    }
+  ]
+}
+
+<> 2022-10-31T144408-5.400.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": [
+    {
+      "ticketType": "child",
+      "seat": {
+        "seatRow": 9,
+        "seatNumber": 1
+      }
+    }
+  ]
+}
+
+<> 2022-10-31T144408-4.400.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": [
+    {
+      "ticketType": "child",
       "seat": {
         "seatRow": 1,
         "seatNumber": 1
-      }
-    },
-    {
-      "ticketType": "student",
-      "seat": {
-        "seatRow": 1,
-        "seatNumber": 2
       }
     },
     {
@@ -30,19 +89,7 @@ Content-Type: application/json
   ]
 }
 
-<> 2022-10-30T231938-2.200.json
-
-###
-
-GET http://localhost:8080/api/hall/schedule/5
-
-<> 2022-10-30T231938-1.200.json
-
-###
-
-GET http://localhost:8080/api/schedules/all/range/?timeFrom=01-01-2022 0:00&timeTo=31-12-2022 23:59
-
-<> 2022-10-30T231938.200.json
+<> 2022-10-31T144408-3.400.json
 
 ###
 
@@ -52,20 +99,335 @@ Content-Type: application/json
 {
   "customerName": "Bob",
   "customerSurname": "Bob",
-  "idSchedule": "5",
+  "idSchedule": -1,
   "tickets": [
     {
-      "ticketType": "adult",
+      "ticketType": "child",
       "seat": {
-        "seatRow": 1,
-        "seatNumber": 1
+        "seatRow": 2,
+        "seatNumber": 4
+      }
+    }
+  ]
+}
+
+<> 2022-10-31T144408-2.400.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": [
+    {
+      "ticketType": "firstInvalidType",
+      "seat": {
+        "seatRow": 2,
+        "seatNumber": 4
       }
     },
     {
+      "ticketType": "secondInvalidType",
+      "seat": {
+        "seatRow": 2,
+        "seatNumber": 5
+      }
+    },
+    {
+      "ticketType": "thirdInvalidType",
+      "seat": {
+        "seatRow": 2,
+        "seatNumber": 6
+      }
+    }
+  ]
+}
+
+<> 2022-10-31T144408-1.400.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 1,
+  "tickets": [
+    {
+      "ticketType": "child",
+      "seat": {
+        "seatRow": 2,
+        "seatNumber": 4
+      }
+    }
+  ]
+}
+
+<> 2022-10-31T144408.400.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": []
+}
+
+<> 2022-10-31T144407-1.400.json
+
+###
+
+GET http://localhost:8080/api/hall/schedule/9999
+
+<> 2022-10-31T144407.400.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": "6",
+  "tickets": [
+    {
+      "ticketType": "adult",
+      "seat": {"seatRow":3,"seatNumber":8}
+    },
+    {
       "ticketType": "student",
+      "seat": {"seatRow":3,"seatNumber":9}
+    },
+    {
+      "ticketType": "child",
+      "seat": {"seatRow":3,"seatNumber":10}
+    }
+  ]
+}
+
+<> 2022-10-31T144406-2.200.json
+
+###
+
+GET http://localhost:8080/api/hall/schedule/6
+
+<> 2022-10-31T144406-1.200.json
+
+###
+
+GET http://localhost:8080/api/schedules/all/range/?timeFrom=2022-01-01T0:00&timeTo=2022-12-31T23:59
+
+<> 2022-10-31T144406.200.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": "6",
+  "tickets": [
+    {
+      "ticketType": "adult",
+      "seat": {"seatRow":3,"seatNumber":5}
+    },
+    {
+      "ticketType": "student",
+      "seat": {"seatRow":3,"seatNumber":6}
+    },
+    {
+      "ticketType": "child",
+      "seat": {"seatRow":3,"seatNumber":7}
+    }
+  ]
+}
+
+<> 2022-10-31T144405-1.200.json
+
+###
+
+GET http://localhost:8080/api/hall/schedule/6
+
+<> 2022-10-31T144405.200.json
+
+###
+
+GET http://localhost:8080/api/schedules/all/range/?timeFrom=2022-01-01T0:00&timeTo=2022-12-31T23:59
+
+<> 2022-10-31T144404-3.200.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": "6",
+  "tickets": [
+    {
+      "ticketType": "adult",
+      "seat": {"seatRow":3,"seatNumber":2}
+    },
+    {
+      "ticketType": "student",
+      "seat": {"seatRow":3,"seatNumber":3}
+    },
+    {
+      "ticketType": "child",
+      "seat": {"seatRow":3,"seatNumber":4}
+    }
+  ]
+}
+
+<> 2022-10-31T144404-2.200.json
+
+###
+
+GET http://localhost:8080/api/hall/schedule/6
+
+<> 2022-10-31T144404-1.200.json
+
+###
+
+GET http://localhost:8080/api/schedules/all/range/?timeFrom=2022-01-01T0:00&timeTo=2022-12-31T23:59
+
+<> 2022-10-31T144404.200.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": "6",
+  "tickets": [
+    {
+      "ticketType": "adult",
+      "seat": {"seatRow":2,"seatNumber":9}
+    },
+    {
+      "ticketType": "student",
+      "seat": {"seatRow":2,"seatNumber":10}
+    },
+    {
+      "ticketType": "child",
+      "seat": {"seatRow":3,"seatNumber":1}
+    }
+  ]
+}
+
+<> 2022-10-31T144355.200.json
+
+###
+
+GET http://localhost:8080/api/hall/schedule/6
+
+<> 2022-10-31T144354-1.200.json
+
+###
+
+GET http://localhost:8080/api/schedules/all/range/?timeFrom=2022-01-01T0:00&timeTo=2022-12-31T23:59
+
+<> 2022-10-31T144354.200.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": [
+    {
+      "ticketType": "child",
+      "seat": {
+        "seatRow": 9,
+        "seatNumber": 1
+      }
+    }
+  ]
+}
+
+<> 2022-10-31T144353-3.400.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": [
+    {
+      "ticketType": "child",
+      "seat": {
+        "seatRow": 9,
+        "seatNumber": 1
+      }
+    }
+  ]
+}
+
+<> 2022-10-31T144353-2.400.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": [
+    {
+      "ticketType": "child",
+      "seat": {
+        "seatRow": 9,
+        "seatNumber": 1
+      }
+    }
+  ]
+}
+
+<> 2022-10-31T144353-1.400.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": [
+    {
+      "ticketType": "child",
       "seat": {
         "seatRow": 1,
-        "seatNumber": 2
+        "seatNumber": 1
       }
     },
     {
@@ -78,19 +440,7 @@ Content-Type: application/json
   ]
 }
 
-<> 2022-10-30T231315.200.json
-
-###
-
-GET http://localhost:8080/api/hall/schedule/5
-
-<> 2022-10-30T231314-1.200.json
-
-###
-
-GET http://localhost:8080/api/schedules/all/range/?timeFrom=01-01-2022 0:00&timeTo=31-12-2022 23:59
-
-<> 2022-10-30T231314.200.json
+<> 2022-10-31T144353.400.json
 
 ###
 
@@ -100,20 +450,218 @@ Content-Type: application/json
 {
   "customerName": "Bob",
   "customerSurname": "Bob",
-  "idSchedule": "5",
+  "idSchedule": -1,
   "tickets": [
     {
-      "ticketType": "adult",
+      "ticketType": "child",
       "seat": {
-        "seatRow": 1,
-        "seatNumber": 1
+        "seatRow": 2,
+        "seatNumber": 4
+      }
+    }
+  ]
+}
+
+<> 2022-10-31T144352-4.400.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": [
+    {
+      "ticketType": "firstInvalidType",
+      "seat": {
+        "seatRow": 2,
+        "seatNumber": 4
       }
     },
     {
+      "ticketType": "secondInvalidType",
+      "seat": {
+        "seatRow": 2,
+        "seatNumber": 5
+      }
+    },
+    {
+      "ticketType": "thirdInvalidType",
+      "seat": {
+        "seatRow": 2,
+        "seatNumber": 6
+      }
+    }
+  ]
+}
+
+<> 2022-10-31T144352-3.400.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 1,
+  "tickets": [
+    {
+      "ticketType": "child",
+      "seat": {
+        "seatRow": 2,
+        "seatNumber": 4
+      }
+    }
+  ]
+}
+
+<> 2022-10-31T144352-2.400.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": []
+}
+
+<> 2022-10-31T144352-1.400.json
+
+###
+
+GET http://localhost:8080/api/hall/schedule/9999
+
+<> 2022-10-31T144352.400.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": "6",
+  "tickets": [
+    {
+      "ticketType": "adult",
+      "seat": {"seatRow":2,"seatNumber":6}
+    },
+    {
       "ticketType": "student",
+      "seat": {"seatRow":2,"seatNumber":7}
+    },
+    {
+      "ticketType": "child",
+      "seat": {"seatRow":2,"seatNumber":8}
+    }
+  ]
+}
+
+<> 2022-10-31T144350-2.200.json
+
+###
+
+GET http://localhost:8080/api/hall/schedule/6
+
+<> 2022-10-31T144350-1.200.json
+
+###
+
+GET http://localhost:8080/api/schedules/all/range/?timeFrom=2022-01-01T0:00&timeTo=2022-12-31T23:59
+
+<> 2022-10-31T144350.200.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": [
+    {
+      "ticketType": "child",
+      "seat": {
+        "seatRow": 9,
+        "seatNumber": 1
+      }
+    }
+  ]
+}
+
+<> 2022-10-31T144348-1.400.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": [
+    {
+      "ticketType": "child",
+      "seat": {
+        "seatRow": 9,
+        "seatNumber": 1
+      }
+    }
+  ]
+}
+
+<> 2022-10-31T144348.400.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": [
+    {
+      "ticketType": "child",
+      "seat": {
+        "seatRow": 9,
+        "seatNumber": 1
+      }
+    }
+  ]
+}
+
+<> 2022-10-31T144347.200.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": [
+    {
+      "ticketType": "child",
       "seat": {
         "seatRow": 1,
-        "seatNumber": 2
+        "seatNumber": 1
       }
     },
     {
@@ -126,19 +674,7 @@ Content-Type: application/json
   ]
 }
 
-<> 2022-10-30T231125-1.200.json
-
-###
-
-GET http://localhost:8080/api/hall/schedule/5
-
-<> 2022-10-30T231125.200.json
-
-###
-
-GET http://localhost:8080/api/schedules/all/range/?timeFrom=01-01-2022 0:00&timeTo=31-12-2022 23:59
-
-<> 2022-10-30T231124.200.json
+<> 2022-10-31T144347-5.400.json
 
 ###
 
@@ -148,22 +684,157 @@ Content-Type: application/json
 {
   "customerName": "Bob",
   "customerSurname": "Bob",
-  "dateAndTime": "31-10-2022 11:23",
-  "movieTitle": "ONE PIECE",
-  "hallName": "Red 3D",
+  "idSchedule": -1,
   "tickets": [
     {
-      "ticketType": "adult",
+      "ticketType": "child",
       "seat": {
-        "seatRow": 1,
-        "seatNumber": 1
+        "seatRow": 2,
+        "seatNumber": 4
+      }
+    }
+  ]
+}
+
+<> 2022-10-31T144347-4.400.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": [
+    {
+      "ticketType": "firstInvalidType",
+      "seat": {
+        "seatRow": 2,
+        "seatNumber": 4
       }
     },
     {
-      "ticketType": "student",
+      "ticketType": "secondInvalidType",
+      "seat": {
+        "seatRow": 2,
+        "seatNumber": 5
+      }
+    },
+    {
+      "ticketType": "thirdInvalidType",
+      "seat": {
+        "seatRow": 2,
+        "seatNumber": 6
+      }
+    }
+  ]
+}
+
+<> 2022-10-31T144347-3.400.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 1,
+  "tickets": [
+    {
+      "ticketType": "child",
+      "seat": {
+        "seatRow": 2,
+        "seatNumber": 4
+      }
+    }
+  ]
+}
+
+<> 2022-10-31T144347-2.400.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": []
+}
+
+<> 2022-10-31T144347-1.400.json
+
+###
+
+GET http://localhost:8080/api/hall/schedule/9999
+
+<> 2022-10-31T144347.400.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": [
+    {
+      "ticketType": "child",
+      "seat": {
+        "seatRow": 9,
+        "seatNumber": 1
+      }
+    }
+  ]
+}
+
+<> 2022-10-31T144123-7.400.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": [
+    {
+      "ticketType": "child",
+      "seat": {
+        "seatRow": 9,
+        "seatNumber": 1
+      }
+    }
+  ]
+}
+
+<> 2022-10-31T144123-6.400.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": [
+    {
+      "ticketType": "child",
       "seat": {
         "seatRow": 1,
-        "seatNumber": 2
+        "seatNumber": 1
       }
     },
     {
@@ -176,19 +847,7 @@ Content-Type: application/json
   ]
 }
 
-<> 2022-10-30T231019.400.json
-
-###
-
-GET http://localhost:8080/api/hall/schedule/5
-
-<> 2022-10-30T231019-1.200.json
-
-###
-
-GET http://localhost:8080/api/schedules/all/range/?timeFrom=01-01-2022 0:00&timeTo=31-12-2022 23:59
-
-<> 2022-10-30T231019.200.json
+<> 2022-10-31T144123-5.400.json
 
 ###
 
@@ -198,51 +857,21 @@ Content-Type: application/json
 {
   "customerName": "Bob",
   "customerSurname": "Bob",
-  "dateAndTime": "31-10-2022 11:23",
-  "movieTitle": "ONE PIECE",
-  "hallName": "Red 3D",
+  "idSchedule": -1,
   "tickets": [
-    {
-      "ticketType": "adult",
-      "seat": {
-        "seatRow": 1,
-        "seatNumber": 1
-      }
-    },
-    {
-      "ticketType": "student",
-      "seat": {
-        "seatRow": 1,
-        "seatNumber": 2
-      }
-    },
     {
       "ticketType": "child",
       "seat": {
-        "seatRow": 1,
-        "seatNumber": 3
+        "seatRow": 2,
+        "seatNumber": 4
       }
     }
   ]
 }
 
-<> 2022-10-30T230712.400.json
+<> 2022-10-31T144123-4.400.json
 
 ###
-
-GET http://localhost:8080/api/hall/schedule/5
-
-<> 2022-10-30T230712-1.200.json
-
-###
-
-GET http://localhost:8080/api/schedules/all/range/?timeFrom=01-01-2022 0:00&timeTo=31-12-2022 23:59
-
-<> 2022-10-30T230712.200.json
-
-###
-
-POST http://localhost:8080/api/reserve/add
 
 POST http://localhost:8080/api/reserve/add
 Content-Type: application/json
@@ -250,59 +879,55 @@ Content-Type: application/json
 {
   "customerName": "Bob",
   "customerSurname": "Bob",
-  "dateAndTime": "31-10-2022 11:23",
-  "movieTitle": "ONE PIECE",
-  "hallName": "Red 3D",
+  "idSchedule": 3,
   "tickets": [
     {
-      "ticketType": "adult",
+      "ticketType": "firstInvalidType",
       "seat": {
-        "seatRow": 1,
-        "seatNumber": 1
+        "seatRow": 2,
+        "seatNumber": 4
       }
     },
     {
-      "ticketType": "student",
+      "ticketType": "secondInvalidType",
       "seat": {
-        "seatRow": 1,
-        "seatNumber": 2
+        "seatRow": 2,
+        "seatNumber": 5
       }
     },
+    {
+      "ticketType": "thirdInvalidType",
+      "seat": {
+        "seatRow": 2,
+        "seatNumber": 6
+      }
+    }
+  ]
+}
+
+<> 2022-10-31T144123-3.400.json
+
+###
+
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 1,
+  "tickets": [
     {
       "ticketType": "child",
       "seat": {
-        "seatRow": 1,
-        "seatNumber": 3
+        "seatRow": 2,
+        "seatNumber": 4
       }
     }
   ]
 }
 
-<> 2022-10-30T230637.415.json
-
-###
-
-GET http://localhost:8080/api/hall/schedule/5
-
-<> 2022-10-30T230637-1.200.json
-
-###
-
-GET http://localhost:8080/api/schedules/all/range/?timeFrom=01-01-2022 0:00&timeTo=31-12-2022 23:59
-
-<> 2022-10-30T230637.200.json
-
-###
-
-GET http://localhost:8080/api/schedules/all/range/?timeFrom=01-01-2022 0:00&timeTo=31-12-2022 23:59
-
-<> 2022-10-30T230205.200.json
-
-###
-
-GET http://localhost:8080/api/schedules/all/range/?timeFrom=01-01-2022 0:00&timeTo=31-12-2022 23:59
-
-<> 2022-10-30T225916.200.json
+<> 2022-10-31T144123-2.400.json
 
 ###
 
@@ -312,283 +937,17 @@ Content-Type: application/json
 {
   "customerName": "Bob",
   "customerSurname": "Bob",
-  "dateAndTime": "31-10-2022 11:23",
-  "movieTitle": "ONE PIECE",
-  "hallName": "Red 3D",
-  "tickets": [
-    {
-      "ticketType": "adult",
-      "seat": {
-        "seatRow": 2,
-        "seatNumber": 4
-      }
-    }
-  ]
+  "idSchedule": 3,
+  "tickets": []
 }
 
-<> 2022-10-30T225436.400.json
+<> 2022-10-31T144123-1.400.json
 
 ###
 
-GET http://localhost:8080/api/schedules/all/range/?timeFrom=30-10-2022 0:00&timeTo=31-10-2022 23:59
+GET http://localhost:8080/api/hall/schedule/9999
 
-<> 2022-10-30T225436.200.json
-
-###
-
-POST http://localhost:8080/api/reserve/add
-Content-Type: application/json
-
-{
-  "customerName": "Bob",
-  "customerSurname": "Bob",
-  "dateAndTime": "31-10-2022 11:20",
-  "movieTitle": "ONE PIECE",
-  "hallName": "Red 3D",
-  "tickets": [
-    {
-      "ticketType": "adult",
-      "seat": {
-        "seatRow": 2,
-        "seatNumber": 4
-      }
-    }
-  ]
-}
-
-<> 2022-10-30T225100.400.json
-
-###
-
-GET http://localhost:8080/api/schedules/all/range/?timeFrom=30-10-2022 0:00&timeTo=31-10-2022 23:59
-
-<> 2022-10-30T225100.200.json
-
-###
-
-POST http://localhost:8080/api/reserve/add
-Content-Type: application/json
-
-{
-  "customerName": "Bob",
-  "customerSurname": "Bob",
-  "dateAndTime": "31-10-2022 11:13",
-  "movieTitle": "ONE PIECE",
-  "hallName": "Red 3D",
-  "tickets": [
-    {
-      "ticketType": "adult",
-      "seat": {
-        "seatRow": 2,
-        "seatNumber": 4
-      }
-    }
-  ]
-}
-
-<> 2022-10-30T224356.400.json
-
-###
-
-GET http://localhost:8080/api/schedules/all/range/?timeFrom=30-10-2022 0:00&timeTo=31-10-2022 23:59
-
-<> 2022-10-30T224356.200.json
-
-###
-
-POST http://localhost:8080/api/reserve/add
-Content-Type: application/json
-
-{
-  "customerName": "Bob",
-  "customerSurname": "Bob",
-  "dateAndTime": "31-10-2022 11:12",
-  "movieTitle": "ONE PIECE",
-  "hallName": "Red 3D",
-  "tickets": [
-    {
-      "ticketType": "adult",
-      "seat": {
-        "seatRow": 2,
-        "seatNumber": 4
-      }
-    }
-  ]
-}
-
-<> 2022-10-30T224226.404.json
-
-###
-
-GET http://localhost:8080/api/schedules/all/range/?timeFrom=30-10-2022 0:00&timeTo=31-10-2022 23:59
-
-<> 2022-10-30T224226.200.json
-
-###
-
-POST http://localhost:8080/api/reserve/add
-Content-Type: application/json
-
-{
-  "customerName": "Bob",
-  "customerSurname": "Bob",
-  "dateAndTime": "31-10-2022 11:07",
-  "movieTitle": "ONE PIECE",
-  "hallName": "Red 3D",
-  "tickets": [
-    {
-      "ticketType": "adult",
-      "seat": {
-        "seatRow": 2,
-        "seatNumber": 4
-      }
-    }
-  ]
-}
-
-<> 2022-10-30T224006.404.json
-
-###
-
-GET http://localhost:8080/api/schedules/all/range/?timeFrom=30-10-2022 0:00&timeTo=31-10-2022 23:59
-
-<> 2022-10-30T224005.200.json
-
-###
-
-GET http://localhost:8080/api/schedules/all/range/?timeFrom=30-10-2022 0:00&timeTo=31-10-2022 23:59
-
-<> 2022-10-30T223953.200.json
-
-###
-
-GET http://localhost:8080/api/schedules/all/range/?timeFrom=31-10-2022 0:00&timeTo=28-10-2022 23:59
-
-<> 2022-10-30T223939.200.json
-
-###
-
-GET http://localhost:8080/api/schedules/all/range/?timeFrom=31-10-2022 0:00&timeTo=28-10-2022 23:59
-
-<> 2022-10-30T223932.200.json
-
-###
-
-GET http://localhost:8080/api/schedules/all/range/?timeFrom=30-10-2022 0:00&timeTo=28-10-2022 23:59
-
-<> 2022-10-30T223923.200.json
-
-###
-
-GET http://localhost:8080/api/schedules/all/range/?timeFrom=28-10-2022 0:00&timeTo=28-10-2022 23:59
-
-<> 2022-10-30T223914.200.json
-
-###
-
-GET http://localhost:8080/api/schedules/all/range/?timeFrom=28-10-2022 0:00&timeTo=28-10-2022 23:59
-
-<> 2022-10-30T223910.200.json
-
-###
-
-GET http://localhost:8080/api/schedules/range/?timeFrom=28-10-2022 0:00&timeTo=28-10-2022 23:59
-
-<> 2022-10-30T223858.404.json
-
-###
-
-GET http://localhost:8080/api/schedules/range/?timeFrom=28-10-2022 0:00&timeTo=28-10-2022 23:59
-
-<> 2022-10-30T223856.404.json
-
-###
-
-POST http://localhost:8080/api/reserve/add
-Content-Type: application/json
-
-{
-  "customerName": "Bob",
-  "customerSurname": "Bob",
-  "dateAndTime": "{{screeningTime}}",
-  "movieTitle": "ONE PIECE",
-  "hallName": "Red 3D",
-  "tickets": [
-    {
-      "ticketType": "adult",
-      "seat": {
-        "seatRow": 2,
-        "seatNumber": 4
-      }
-    }
-  ]
-}
-
-<> 2022-10-30T223749-1.404.json
-
-###
-
-GET http://localhost:8080/api/schedules/all?date=30-10-2022&timeFrom=0:00&timeTo=23:59
-
-<> 2022-10-30T223749.404.json
-
-###
-
-GET http://localhost:8080/api/hall/schedule/1
-
-<> 2022-10-30T221059.200.json
-
-###
-
-GET http://localhost:8080/api/schedules/all/range?timeFrom=01-01-2022 0:00&timeTo=31-12-2022 23:59
-
-<> 2022-10-30T212611.200.json
-
-###
-
-GET http://localhost:8080/api/schedules/range?timeFrom=01-01-2022 0:00&timeTo=31-12-2022 23:59
-
-<> 2022-10-30T212604.404.json
-
-###
-
-GET http://localhost:8080/api/schedules/all?date=30-10-2022&timeFrom=0:00&timeTo=23:59
-
-<> 2022-10-30T204918.500.json
-
-###
-
-GET https://www.google.com
-
-<> 2022-10-30T204918.200.html
-
-###
-
-GET https://www.google.com
-
-<> 2022-10-30T204912.200.html
-
-###
-
-GET http://localhost:8080/api/schedules/all?date=30-10-2022&timeFrom=0:00&timeTo=23:59
-
-<> 2022-10-30T204837.500.json
-
-###
-
-GET http://localhost:80/api/item?id=99
-
-###
-
-GET http://localhost:8080/api/schedules/all?date=30-10-2022&timeFrom=0:00&timeTo=23:59
-
-<> 2022-10-30T203803.500.json
-
-###
-
-GET http://localhost:8080/api/schedules/all?date=30-10-2022&timeFrom=0:00&timeTo=23:59
-
-<> 2022-10-30T203750.500.json
+<> 2022-10-31T144123.400.json
 
 ###
 

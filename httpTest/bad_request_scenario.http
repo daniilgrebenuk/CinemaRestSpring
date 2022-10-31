@@ -1,0 +1,236 @@
+GET http://localhost:8080/api/hall/schedule/9999
+
+> {%
+
+client.test("Get hall with incorrect idSchedule", () => {
+  client.assert(response.status === 400, "Status Bad request")
+  client.assert(response.body.errorMessage === 'Schedule with id: "9999" doesn\'t exist!')
+})
+%}
+
+###
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": []
+}
+
+> {%
+client.test("Reservation without seats", () => {
+  client.assert(response.status === 400, "Status Bad request")
+  client.assert(response.body.errorMessage === 'You must select at least one seat!')
+})
+%}
+
+###
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 1,
+  "tickets": [
+    {
+      "ticketType": "child",
+      "seat": {
+        "seatRow": 2,
+        "seatNumber": 4
+      }
+    }
+  ]
+}
+
+> {%
+client.test("Reservation after schedule expiration date", () => {
+  client.assert(response.status === 400, "Status Bad request")
+  client.assert(response.body.errorMessage === 'Tickets can only be purchased 15 minutes before the start!')
+})
+%}
+
+###
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": [
+    {
+      "ticketType": "firstInvalidType",
+      "seat": {
+        "seatRow": 2,
+        "seatNumber": 4
+      }
+    },
+    {
+      "ticketType": "secondInvalidType",
+      "seat": {
+        "seatRow": 2,
+        "seatNumber": 5
+      }
+    },
+    {
+      "ticketType": "thirdInvalidType",
+      "seat": {
+        "seatRow": 2,
+        "seatNumber": 6
+      }
+    }
+  ]
+}
+
+> {%
+client.test("Invalid ticket types", () => {
+  client.assert(response.status === 400, "Status Bad request")
+  client.assert(response.body.errorMessage.indexOf("firstInvalidType") >= 0)
+  client.assert(response.body.errorMessage.indexOf("secondInvalidType") >= 0)
+  client.assert(response.body.errorMessage.indexOf("thirdInvalidType") >= 0)
+  client.assert(response.body.errorMessage.indexOf("Invalid ticket types specified:") >= 0)
+})
+%}
+
+###
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": -1,
+  "tickets": [
+    {
+      "ticketType": "child",
+      "seat": {
+        "seatRow": 2,
+        "seatNumber": 4
+      }
+    }
+  ]
+}
+
+> {%
+client.test("Reservation with incorrect idSchedule", () => {
+  client.assert(response.status === 400, "Status Bad request")
+  client.assert(response.body.errorMessage === 'There is no schedule suitable for this reservation!')
+})
+%}
+
+###
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": [
+    {
+      "ticketType": "child",
+      "seat": {
+        "seatRow": 1,
+        "seatNumber": 1
+      }
+    },
+    {
+      "ticketType": "child",
+      "seat": {
+        "seatRow": 1,
+        "seatNumber": 3
+      }
+    }
+  ]
+}
+
+> {%
+client.test("Leaving an empty seat between two reserved", () => {
+  client.assert(response.status === 400, "Status Bad request")
+  client.assert(response.body.errorMessage === 'You cannot leave an available seat between two reserved seats!')
+})
+%}
+
+###
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": [
+    {
+      "ticketType": "child",
+      "seat": {
+        "seatRow": 9,
+        "seatNumber": 1
+      }
+    }
+  ]
+}
+
+###
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": [
+    {
+      "ticketType": "child",
+      "seat": {
+        "seatRow": 9,
+        "seatNumber": 1
+      }
+    }
+  ]
+}
+
+> {%
+client.test("Reservation of an already reserved seat", () => {
+  client.assert(response.status === 400, "Status Bad request")
+  client.assert(response.body.errorMessage.indexOf('Input seats are already reserved:') >= 0)
+  client.assert(response.body.errorMessage.indexOf('seatRow=9') >= 0)
+  client.assert(response.body.errorMessage.indexOf('seatNumber=1') >= 0)
+})
+%}
+
+###
+POST http://localhost:8080/api/reserve/add
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": [
+    {
+      "ticketType": "child",
+      "seat": {
+        "seatRow": 9,
+        "seatNumber": 1
+      }
+    }
+  ]
+}
+
+> {%
+client.test("Reservation of an already reserved seat", () => {
+  client.assert(response.status === 400, "Status Bad request")
+  client.assert(response.body.errorMessage.indexOf('Input seats are already reserved:') >= 0)
+  client.assert(response.body.errorMessage.indexOf('seatRow=9') >= 0)
+  client.assert(response.body.errorMessage.indexOf('seatNumber=1') >= 0)
+})
+%}
+
+
+
+
+
+

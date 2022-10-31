@@ -35,4 +35,8 @@ public class Hall {
   public Long getIdHall() {
     return idHall;
   }
+
+  public List<Seat> getSeats() {
+    return seats;
+  }
 }

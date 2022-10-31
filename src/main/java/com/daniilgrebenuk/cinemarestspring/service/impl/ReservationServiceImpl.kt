@@ -32,7 +32,7 @@ class ReservationServiceImpl(
         verifySeats(
             seatsToReserve = reservedSeats,
             availableSeats = availableSeats.map { dtoConverter.seatDtoFromSeat(it) }.toSet(),
-            allHallSeats = findSeatsByHall(schedule.hall).map { dtoConverter.seatDtoFromSeat(it) }.toSet()
+            allHallSeats = schedule.hall.seats.map { dtoConverter.seatDtoFromSeat(it) }.toSet()
         )
         val ticketTypes = findAllTicketTypesAndVerifyInReservation(reservationDto)
 
@@ -134,14 +134,6 @@ class ReservationServiceImpl(
                 }
             }
         return false
-    }
-
-    private fun findSeatsByHall(hall: Hall): List<Seat> {
-        return seatRepository.findAllByHallIdHall(hall.idHall).also {
-            if (it.isEmpty()) {
-                throw InvalidReservationException("Hall with id: \"${hall.idHall}\" doesn't exist!")
-            }
-        }
     }
 
 }
