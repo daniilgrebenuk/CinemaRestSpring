@@ -1,5 +1,6 @@
 package com.daniilgrebenuk.cinemarestspring.controller;
 
+import com.daniilgrebenuk.cinemarestspring.dtos.ScheduleDto;
 import com.daniilgrebenuk.cinemarestspring.service.ScheduleService;
 import com.daniilgrebenuk.cinemarestspring.util.GlobalConstants;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/schedules")
@@ -20,10 +22,9 @@ public class ScheduleController {
   private final ScheduleService scheduleService;
 
   @GetMapping("/all/range")
-  public ResponseEntity<?> getSchedulesBetweenTwoDate(
+  public ResponseEntity<List<ScheduleDto>> getSchedulesBetweenTwoDate(
       @Param("timeFrom") String timeFrom,
-      @Param("timeTo") String timeTo)
-  {
+      @Param("timeTo") String timeTo) {
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(GlobalConstants.LOCAL_DATE_TIME_PATTER);
 
     return ResponseEntity.ok(

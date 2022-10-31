@@ -1,6 +1,7 @@
 package com.daniilgrebenuk.cinemarestspring.util;
 
 public interface GlobalConstants {
+
   String CUSTOMER_NAME_REGEX = "[A-ZŻŹĆĄŚĘŁÓŃ][a-zżźćńółęąś]+";
   String CUSTOMER_SURNAME_REGEX = "[A-ZŻŹĆĄŚĘŁÓŃ][a-zżźćńółęąś]+(-[A-ZŻŹĆĄŚĘŁÓŃ][a-zżźćńółęąś]+)?";
 
@@ -8,5 +9,5 @@ public interface GlobalConstants {
   String LOCAL_DATE_PATTER = "dd-MM-yyyy";
   String LOCAL_TIME_PATTER = "H:mm";
 
-  long EXPIRATION_TIME_IN_HOURS = 4;
+  long EXPIRATION_TIME_IN_HOURS = 2;
 }

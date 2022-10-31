@@ -9,17 +9,17 @@ import java.util.List;
 public interface SeatRepository extends JpaRepository<Seat, Long> {
 
   @Query(value = """
-    SELECT seat.* FROM Seat seat
-                JOIN Hall h ON seat.ID_HALL = h.ID_HALL
-                JOIN Schedule s ON s.ID_HALL = h.ID_HALL
-    WHERE s.ID_SCHEDULE = ?1
-    EXCEPT
-    SELECT seat.* FROM Seat seat
-                JOIN Ticket t ON t.ID_SEAT = seat.ID_SEAT
-                JOIN RESERVATION o ON o.ID_RESERVATION = t.ID_RESERVATION
-                JOIN SCHEDULE s ON o.ID_SCHEDULE = s.ID_SCHEDULE
-    WHERE s.ID_SCHEDULE = ?1
-""", nativeQuery = true)
+          SELECT seat.* FROM Seat seat
+                      JOIN Hall h ON seat.ID_HALL = h.ID_HALL
+                      JOIN Schedule s ON s.ID_HALL = h.ID_HALL
+          WHERE s.ID_SCHEDULE = ?1
+          EXCEPT
+          SELECT seat.* FROM Seat seat
+                      JOIN Ticket t ON t.ID_SEAT = seat.ID_SEAT
+                      JOIN RESERVATION o ON o.ID_RESERVATION = t.ID_RESERVATION
+                      JOIN SCHEDULE s ON o.ID_SCHEDULE = s.ID_SCHEDULE
+          WHERE s.ID_SCHEDULE = ?1
+      """, nativeQuery = true)
   List<Seat> findAllAvailableSeatsByIdSchedule(Long idSchedule);
 
   List<Seat> findAllByHallIdHall(Long idHall);

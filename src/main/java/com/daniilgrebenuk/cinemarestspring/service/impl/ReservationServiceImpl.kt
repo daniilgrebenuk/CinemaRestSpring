@@ -4,7 +4,10 @@ import com.daniilgrebenuk.cinemarestspring.dtos.ConfirmationDto
 import com.daniilgrebenuk.cinemarestspring.dtos.ReservationDto
 import com.daniilgrebenuk.cinemarestspring.dtos.SeatDto
 import com.daniilgrebenuk.cinemarestspring.exception.InvalidReservationException
-import com.daniilgrebenuk.cinemarestspring.model.*
+import com.daniilgrebenuk.cinemarestspring.model.Reservation
+import com.daniilgrebenuk.cinemarestspring.model.Schedule
+import com.daniilgrebenuk.cinemarestspring.model.Ticket
+import com.daniilgrebenuk.cinemarestspring.model.TicketType
 import com.daniilgrebenuk.cinemarestspring.repository.*
 import com.daniilgrebenuk.cinemarestspring.service.ReservationService
 import com.daniilgrebenuk.cinemarestspring.util.DtoConverter
@@ -56,7 +59,10 @@ class ReservationServiceImpl(
         return LocalDateTime
             .now()
             .plusHours(GlobalConstants.EXPIRATION_TIME_IN_HOURS)
+            .withSecond(0)
+            .withNano(0)
             .let {
+
                 if (it < endOfReservation)
                     it
                 else

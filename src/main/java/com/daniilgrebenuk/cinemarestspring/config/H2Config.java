@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+@Profile("tst")
 @Configuration
 @RequiredArgsConstructor
 public class H2Config {
@@ -33,8 +34,6 @@ public class H2Config {
   private final SeatRepository seatRepository;
   private final TicketTypeRepository ticketTypeRepository;
 
-
-  @Profile("dev")
   @Bean(initMethod = "start", destroyMethod = "stop")
   public Server h2Server() throws SQLException {
     return Server.createTcpServer("-tcp");
@@ -85,7 +84,7 @@ public class H2Config {
     LocalDateTime localDateTime = LocalDateTime.now()
         .withNano(0)
         .withSecond(0)
-        .minusMinutes(55);
+        .minusMinutes(35);
     List<Movie> movies = movieRepository.findAll();
     List<Hall> halls = hallRepository.findAll();
     int moviesCounter = 0;

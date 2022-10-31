@@ -201,33 +201,6 @@ client.test("Reservation of an already reserved seat", () => {
 })
 %}
 
-###
-POST http://localhost:8080/api/reserve/add
-Content-Type: application/json
-
-{
-  "customerName": "Bob",
-  "customerSurname": "Bob",
-  "idSchedule": 3,
-  "tickets": [
-    {
-      "ticketType": "child",
-      "seat": {
-        "seatRow": 9,
-        "seatNumber": 1
-      }
-    }
-  ]
-}
-
-> {%
-client.test("Reservation of an already reserved seat", () => {
-  client.assert(response.status === 400, "Status Bad request")
-  client.assert(response.body.errorMessage.indexOf('Input seats are already reserved:') >= 0)
-  client.assert(response.body.errorMessage.indexOf('seatRow=9') >= 0)
-  client.assert(response.body.errorMessage.indexOf('seatNumber=1') >= 0)
-})
-%}
 
 
 

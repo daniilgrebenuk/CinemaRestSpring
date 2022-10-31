@@ -1,5 +1,6 @@
 package com.daniilgrebenuk.cinemarestspring.controller;
 
+import com.daniilgrebenuk.cinemarestspring.dtos.HallDto;
 import com.daniilgrebenuk.cinemarestspring.service.HallService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ public class HallController {
   private final HallService hallService;
 
   @GetMapping("/schedule/{idSchedule}")
-  public ResponseEntity<?> findById(@PathVariable Long idSchedule) {
+  public ResponseEntity<HallDto> findById(@PathVariable Long idSchedule) {
     return ResponseEntity.ok(hallService.getHallDtoByScheduleId(idSchedule));
   }
 }

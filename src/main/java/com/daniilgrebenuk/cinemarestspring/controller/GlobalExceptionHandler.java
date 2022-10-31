@@ -1,15 +1,13 @@
 package com.daniilgrebenuk.cinemarestspring.controller;
 
 
-import com.daniilgrebenuk.cinemarestspring.exception.InvalidReservationException;
 import com.daniilgrebenuk.cinemarestspring.exception.DataNotFoundException;
-import org.springframework.http.HttpStatus;
+import com.daniilgrebenuk.cinemarestspring.exception.InvalidReservationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.Map;
 import java.util.Optional;
@@ -27,7 +25,8 @@ public class GlobalExceptionHandler {
             .stream()
             .collect(Collectors.toMap(
                 error -> ((FieldError) error).getField(),
-                error -> Optional.ofNullable(error.getDefaultMessage()).orElse("No error specified!")
+                error -> Optional.ofNullable(error.getDefaultMessage()).orElse("No error specified!"),
+                (m1, m2) -> m1 + ", " + m2
             ))
     );
   }
