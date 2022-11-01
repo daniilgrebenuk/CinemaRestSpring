@@ -26,4 +26,5 @@ You need to run the buildAndRun.sh script or enter the `mvn clean install spring
 The program has several tests End-To-End. They run every time you use the run command shown above.
 
 ## IntelliJ IDEA http client
-1. 
+There are two .http files in the httpTest folder. After launching the application, you can run requests and see the responses from the server.
+![image](https://user-images.githubusercontent.com/84989172/199353477-223fe0e1-2e54-403d-bba7-515ad2c699d3.png)
