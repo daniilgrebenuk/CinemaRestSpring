@@ -21,6 +21,4 @@ public interface SeatRepository extends JpaRepository<Seat, Long> {
           WHERE s.ID_SCHEDULE = ?1
       """, nativeQuery = true)
   List<Seat> findAllAvailableSeatsByIdSchedule(Long idSchedule);
-
-  List<Seat> findAllByHallIdHall(Long idHall);
 }

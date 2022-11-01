@@ -3,6 +3,7 @@ package com.daniilgrebenuk.cinemarestspring.controller;
 
 import com.daniilgrebenuk.cinemarestspring.exception.DataNotFoundException;
 import com.daniilgrebenuk.cinemarestspring.exception.InvalidReservationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -31,8 +32,15 @@ public class GlobalExceptionHandler {
     );
   }
 
-  @ExceptionHandler({ InvalidReservationException.class, DataNotFoundException.class })
+  @ExceptionHandler( InvalidReservationException.class )
   public ResponseEntity<Map<String, String>> handleInvalidReservationException(RuntimeException ex) {
     return ResponseEntity.badRequest().body(Map.of("errorMessage", ex.getMessage()));
   }
+
+  @ExceptionHandler(DataNotFoundException.class)
+  public ResponseEntity<Map<String, String>> handleDataNotFoundException(RuntimeException ex) {
+    return new ResponseEntity<>(Map.of("errorMessage", ex.getMessage()), HttpStatus.NOT_FOUND);
+  }
+
+
 }

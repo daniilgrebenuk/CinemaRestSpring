@@ -14,25 +14,25 @@ import java.util.List;
 public class DtoConverter {
 
   public ScheduleDto scheduleDtoFromSchedule(Schedule schedule) {
-    return new ScheduleDto(
-        schedule.getIdSchedule(),
-        schedule.getHall().getName(),
-        schedule.getMovie().getTitle(),
-        schedule.getTime()
-    );
+    return ScheduleDto.builder()
+        .idSchedule(schedule.getIdSchedule())
+        .hallName(schedule.getHall().getName())
+        .movieTitle(schedule.getMovie().getTitle())
+        .time(schedule.getTime())
+        .build();
   }
 
   public SeatDto seatDtoFromSeat(Seat seat) {
-    return new SeatDto(
-        seat.getSeatRow(),
-        seat.getSeatNumber()
-    );
+    return SeatDto.builder()
+        .seatRow(seat.getSeatRow())
+        .seatNumber(seat.getSeatNumber())
+        .build();
   }
 
   public HallDto hallDtoFromHallAndSeats(Hall hall, List<Seat> seats) {
-    return new HallDto(
-        hall.getName(),
-        seats.stream().map(this::seatDtoFromSeat).toList()
-    );
+    return HallDto.builder()
+        .hallName(hall.getName())
+        .availableSeats(seats.stream().map(this::seatDtoFromSeat).toList())
+        .build();
   }
 }

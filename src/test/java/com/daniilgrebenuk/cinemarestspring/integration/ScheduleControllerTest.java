@@ -27,15 +27,16 @@ public class ScheduleControllerTest {
   int port;
   @Autowired
   TestRestTemplate restTemplate;
+  String defaultUrl = "http://localhost:%d/api/schedules/range/?timeFrom=%s&timeTo=%s";
 
   @Test
   void findAllSchedulesOfCurrentYear() {
     LocalDateTime from = LocalDateTime.of(LocalDateTime.now().getYear(), 1, 1, 0, 0);
     LocalDateTime to = LocalDateTime.of(LocalDateTime.now().getYear(), 12, 31, 23, 59);
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(GlobalConstants.LOCAL_DATE_TIME_PATTER);
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(GlobalConstants.LOCAL_DATE_TIME_PATTERN);
 
     ResponseEntity<ScheduleDto[]> response = restTemplate.getForEntity(
-        String.format("http://localhost:%d/api/schedules/all/range/?timeFrom=%s&timeTo=%s", port, from.format(formatter), to.format(formatter)),
+        String.format(defaultUrl, port, from.format(formatter), to.format(formatter)),
         ScheduleDto[].class
     );
     String bodyString = Optional.ofNullable(response.getBody()).map(Arrays::toString).orElse(null);
@@ -59,10 +60,10 @@ public class ScheduleControllerTest {
   void findAllSchedulesFromLastYearTo15MinutesAgo() {
     LocalDateTime from = LocalDateTime.now().minusYears(1);
     LocalDateTime to = LocalDateTime.now().minusMinutes(15);
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(GlobalConstants.LOCAL_DATE_TIME_PATTER);
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(GlobalConstants.LOCAL_DATE_TIME_PATTERN);
 
     ResponseEntity<ScheduleDto[]> response = restTemplate.getForEntity(
-        String.format("http://localhost:%d/api/schedules/all/range/?timeFrom=%s&timeTo=%s", port, from.format(formatter), to.format(formatter)),
+        String.format(defaultUrl, port, from.format(formatter), to.format(formatter)),
         ScheduleDto[].class
     );
 

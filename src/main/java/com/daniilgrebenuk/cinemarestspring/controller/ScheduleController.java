@@ -21,14 +21,14 @@ public class ScheduleController {
 
   private final ScheduleService scheduleService;
 
-  @GetMapping("/all/range")
+  @GetMapping("/range")
   public ResponseEntity<List<ScheduleDto>> getSchedulesBetweenTwoDate(
       @Param("timeFrom") String timeFrom,
       @Param("timeTo") String timeTo) {
-    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(GlobalConstants.LOCAL_DATE_TIME_PATTER);
+    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(GlobalConstants.LOCAL_DATE_TIME_PATTERN);
 
     return ResponseEntity.ok(
-        scheduleService.findAllSchedulesByDayAndTimeFromAndTimeTo(
+        scheduleService.findAllSchedulesByTimeFromAndTimeTo(
             LocalDateTime.parse(timeFrom, dateFormatter),
             LocalDateTime.parse(timeTo, dateFormatter)
         )

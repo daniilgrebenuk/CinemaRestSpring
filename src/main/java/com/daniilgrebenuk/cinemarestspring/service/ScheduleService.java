@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface ScheduleService {
 
-  List<ScheduleDto> findAllSchedulesByDayAndTimeFromAndTimeTo(LocalDateTime timeFrom, LocalDateTime timeTo);
+  List<ScheduleDto> findAllSchedulesByTimeFromAndTimeTo(LocalDateTime timeFrom, LocalDateTime timeTo);
 }

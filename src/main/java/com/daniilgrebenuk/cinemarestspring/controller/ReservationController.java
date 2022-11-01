@@ -15,12 +15,12 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/reserve")
+@RequestMapping("/api/reservations")
 public class ReservationController {
 
   private final ReservationService reservationService;
 
-  @PostMapping("/add")
+  @PostMapping
   public ResponseEntity<ConfirmationDto> reserveSeats(@RequestBody @Valid ReservationDto reservation) {
     return ResponseEntity.ok(reservationService.reserveTickets(reservation));
   }

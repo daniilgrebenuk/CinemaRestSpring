@@ -3,6 +3,7 @@ package com.daniilgrebenuk.cinemarestspring.service.impl
 import com.daniilgrebenuk.cinemarestspring.dtos.ConfirmationDto
 import com.daniilgrebenuk.cinemarestspring.dtos.ReservationDto
 import com.daniilgrebenuk.cinemarestspring.dtos.SeatDto
+import com.daniilgrebenuk.cinemarestspring.exception.DataNotFoundException
 import com.daniilgrebenuk.cinemarestspring.exception.InvalidReservationException
 import com.daniilgrebenuk.cinemarestspring.model.Reservation
 import com.daniilgrebenuk.cinemarestspring.model.Schedule
@@ -29,16 +30,15 @@ class ReservationServiceImpl(
         verifyTicketsSize(reservationDto)
 
         val schedule = findScheduleByReservationDtoAndVerifyTime(reservationDto)
-
         val availableSeats = seatRepository.findAllAvailableSeatsByIdSchedule(schedule.idSchedule)
-        val reservedSeats = reservationDto.tickets.map { it.seat }.toSet()
+
         verifySeats(
-            seatsToReserve = reservedSeats,
+            seatsToReserve = reservationDto.tickets.map { it.seat }.toSet(),
             availableSeats = availableSeats.map { dtoConverter.seatDtoFromSeat(it) }.toSet(),
             allHallSeats = schedule.hall.seats.map { dtoConverter.seatDtoFromSeat(it) }.toSet()
         )
-        val ticketTypes = findAllTicketTypesAndVerifyInReservation(reservationDto)
 
+        val ticketTypes = findAllTicketTypesAndVerify(reservationDto)
         val reservation = createReservationByReservationDtoAndSchedule(reservationDto, schedule)
         var totalPrice = 0.0
         reservationDto.tickets.forEach { ticketDto ->
@@ -90,23 +90,19 @@ class ReservationServiceImpl(
         }
     }
 
-    private fun findAllTicketTypesAndVerifyInReservation(reservationDto: ReservationDto): List<TicketType> {
-        val ticketTypeErrors = ArrayList<String>()
+    private fun findAllTicketTypesAndVerify(reservationDto: ReservationDto): List<TicketType> {
         return ticketTypeRepository.findAll().also { ticketTypes ->
-            reservationDto.tickets.map { it.ticketType }.forEach { ticketType ->
-                if (ticketTypes.none { it.type == ticketType }) {
-                    ticketTypeErrors += ticketType
+            (reservationDto.tickets.map { it.ticketType }.toSet() - ticketTypes.map { it.type }.toSet()).also { invalidTicketTypes ->
+                    if (invalidTicketTypes.isNotEmpty()) {
+                        throw InvalidReservationException("Invalid ticket types specified: $invalidTicketTypes")
+                    }
                 }
-            }
-            if (ticketTypeErrors.size != 0) {
-                throw InvalidReservationException("Invalid ticket types specified: $ticketTypeErrors")
-            }
         }
     }
 
     private fun findScheduleByReservationDtoAndVerifyTime(reservationDto: ReservationDto): Schedule {
         return scheduleRepository.findById(reservationDto.idSchedule)
-            .orElseThrow { InvalidReservationException("There is no schedule suitable for this reservation!") }
+            .orElseThrow { DataNotFoundException("There is no schedule suitable for this reservation!") }
             .also { verifyTime(it) }
     }
 

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/hall")
+@RequestMapping("/api/halls")
 @RequiredArgsConstructor
 public class HallController {
 
@@ -18,6 +18,6 @@ public class HallController {
 
   @GetMapping("/schedule/{idSchedule}")
   public ResponseEntity<HallDto> findById(@PathVariable Long idSchedule) {
-    return ResponseEntity.ok(hallService.getHallDtoByScheduleId(idSchedule));
+    return ResponseEntity.ok(hallService.getHallWithAvailableSeatsByScheduleId(idSchedule));
   }
 }

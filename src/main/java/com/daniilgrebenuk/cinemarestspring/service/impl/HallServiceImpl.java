@@ -18,8 +18,7 @@ public class HallServiceImpl implements HallService {
   private final DtoConverter dtoConverter;
 
   @Override
-  public HallDto getHallDtoByScheduleId(Long idSchedule) {
-
+  public HallDto getHallWithAvailableSeatsByScheduleId(Long idSchedule) {
     return dtoConverter.hallDtoFromHallAndSeats(
         scheduleRepository
             .findById(idSchedule)

@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public record ConfirmationDto(
     Double totalSum,
 
-    @JsonFormat(pattern = GlobalConstants.LOCAL_DATE_TIME_PATTER)
+    @JsonFormat(pattern = GlobalConstants.LOCAL_DATE_TIME_PATTERN)
     LocalDateTime expireDate
 ) {
 

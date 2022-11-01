@@ -23,10 +23,12 @@ public class HallControllerTest {
   @Autowired
   TestRestTemplate restTemplate;
 
+  String defaultUrl = "http://localhost:%d/api/halls/schedule/%d";
+
   @Test
   void findHallByScheduleId() {
     ResponseEntity<HallDto> response = restTemplate.getForEntity(
-        String.format("http://localhost:%d/api/hall/schedule/%d", port, 3),
+        String.format(defaultUrl, port, 3),
         HallDto.class
     );
 
@@ -42,13 +44,13 @@ public class HallControllerTest {
   @Test
   void findHallWithIncorrectScheduleId() {
     ResponseEntity<String> response = restTemplate.getForEntity(
-        String.format("http://localhost:%d/api/hall/schedule/%d", port, 9999),
+        String.format(defaultUrl, port, 9999),
         String.class
     );
 
 
     assertAll(
-        () -> assertThat(response.getStatusCodeValue()).isEqualTo(400),
+        () -> assertThat(response.getStatusCodeValue()).isEqualTo(404),
         () -> assertThat(response.getBody()).contains("Schedule with id: \\\"9999\\\" doesn't exist!")
 
     );

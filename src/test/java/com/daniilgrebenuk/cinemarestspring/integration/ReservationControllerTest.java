@@ -30,16 +30,18 @@ public class ReservationControllerTest {
   @Autowired
   TestRestTemplate restTemplate;
 
+  String defaultUrl = "http://localhost:%d/api/reservations";
+
   @Test
   void reserveTicketsWithCorrectInput45MinutesBeforeFilm() {
     ReservationDto correctReservationDto = createCorrectReservationDto(3L);
     ResponseEntity<ConfirmationDto> response = restTemplate.postForEntity(
-        String.format("http://localhost:%d/api/reserve/add", port),
+        String.format(defaultUrl, port),
         correctReservationDto,
         ConfirmationDto.class
     );
 
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(GlobalConstants.LOCAL_DATE_TIME_PATTER);
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(GlobalConstants.LOCAL_DATE_TIME_PATTERN);
 
     // Reservation is valid for either 2 hours or until the end of the possibility to reserve
     String expectedExpireDate = LocalDateTime.now().plusMinutes(30).format(formatter);
@@ -56,12 +58,12 @@ public class ReservationControllerTest {
   void reserveTicketsWithCorrectInput165MinutesBeforeFilm() {
     ReservationDto correctReservationDto = createCorrectReservationDto(6L);
     ResponseEntity<ConfirmationDto> response = restTemplate.postForEntity(
-        String.format("http://localhost:%d/api/reserve/add", port),
+        String.format(defaultUrl, port),
         correctReservationDto,
         ConfirmationDto.class
     );
-
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(GlobalConstants.LOCAL_DATE_TIME_PATTER);
+    System.out.println(response);
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(GlobalConstants.LOCAL_DATE_TIME_PATTERN);
 
     // Reservation is valid for either 2 hours or until the end of the possibility to reserve
     String expectedExpireDate = LocalDateTime.now().plusHours(GlobalConstants.EXPIRATION_TIME_IN_HOURS).format(formatter);
@@ -78,7 +80,7 @@ public class ReservationControllerTest {
   void reserveTicketsWithCorrectInput5MinutesBeforeFilm() {
     ReservationDto reservationDto = createCorrectReservationDto(2L);
     ResponseEntity<String> response = restTemplate.postForEntity(
-        String.format("http://localhost:%d/api/reserve/add", port),
+        String.format(defaultUrl, port),
         reservationDto,
         String.class
     );
@@ -93,7 +95,7 @@ public class ReservationControllerTest {
   void reserveWithoutSeats() {
     ReservationDto reservationDto = new ReservationDto("Bob", "Bob", 3L, List.of());
     ResponseEntity<String> response = restTemplate.postForEntity(
-        String.format("http://localhost:%d/api/reserve/add", port),
+        String.format(defaultUrl, port),
         reservationDto,
         String.class
     );
@@ -109,7 +111,7 @@ public class ReservationControllerTest {
   void reserveWithIncorrectTicketType() {
     ReservationDto reservationDto = createReservationWithIncorrectTicketTypes();
     ResponseEntity<String> response = restTemplate.postForEntity(
-        String.format("http://localhost:%d/api/reserve/add", port),
+        String.format(defaultUrl, port),
         reservationDto,
         String.class
     );
@@ -128,13 +130,13 @@ public class ReservationControllerTest {
   void reserveWithIncorrectScheduleId() {
     ReservationDto reservationDto = createCorrectReservationDto(-1L);
     ResponseEntity<String> response = restTemplate.postForEntity(
-        String.format("http://localhost:%d/api/reserve/add", port),
+        String.format(defaultUrl, port),
         reservationDto,
         String.class
     );
 
     assertAll(
-        () -> assertThat(response.getStatusCodeValue()).isEqualTo(400),
+        () -> assertThat(response.getStatusCodeValue()).isEqualTo(404),
         () -> assertThat(response.getBody())
             .contains("There is no schedule suitable for this reservation!")
     );
@@ -144,7 +146,7 @@ public class ReservationControllerTest {
   void reserveLeavingEmptySeatBetweenTwoReserved() {
     ReservationDto reservationDto = createReservationWithOneAvailableSeatBetweenTwoReserved();
     ResponseEntity<String> response = restTemplate.postForEntity(
-        String.format("http://localhost:%d/api/reserve/add", port),
+        String.format(defaultUrl, port),
         reservationDto,
         String.class
     );
@@ -160,13 +162,13 @@ public class ReservationControllerTest {
   void reserveAlreadyReservedSeat() {
     ReservationDto correctReservationDto = createCorrectReservationDto(3L);
     restTemplate.postForEntity(
-        String.format("http://localhost:%d/api/reserve/add", port),
+        String.format(defaultUrl, port),
         correctReservationDto,
         ConfirmationDto.class
     );
 
     ResponseEntity<String> response = restTemplate.postForEntity(
-        String.format("http://localhost:%d/api/reserve/add", port),
+        String.format(defaultUrl, port),
         correctReservationDto,
         String.class
     );
@@ -186,13 +188,13 @@ public class ReservationControllerTest {
   void reserveWithInvalidName() {
     ReservationDto correctReservationDto = new ReservationDto("", "", 3L, List.of());
     restTemplate.postForEntity(
-        String.format("http://localhost:%d/api/reserve/add", port),
+        String.format(defaultUrl, port),
         correctReservationDto,
         ConfirmationDto.class
     );
 
     ResponseEntity<String> response = restTemplate.postForEntity(
-        String.format("http://localhost:%d/api/reserve/add", port),
+        String.format(defaultUrl, port),
         correctReservationDto,
         String.class
     );
@@ -200,8 +202,11 @@ public class ReservationControllerTest {
     assertAll(
         () -> assertThat(response.getStatusCodeValue()).isEqualTo(400),
         () -> assertThat(response.getBody())
-            .contains("\"customerName\":\"should fit the pattern: \\\"[A-ZŻŹĆĄŚĘŁÓŃ][a-zżźćńółęąś]+\\\", minimum length must be 3\"")
-            .contains("\"customerSurname\":\"minimum length must be 3, should fit the pattern: \\\"[A-ZŻŹĆĄŚĘŁÓŃ][a-zżźćńółęąś]+(-[A-ZŻŹĆĄŚĘŁÓŃ][a-zżźćńółęąś]+)?\\\"\"")
+            .contains("\"customerName\":")
+            .contains("\"customerSurname\":")
+            .contains("minimum length must be 3")
+            .contains("should fit the pattern: \\\"[A-ZŻŹĆĄŚĘŁÓŃ][a-zżźćńółęąś]+\\\"")
+            .contains("should fit the pattern: \\\"[A-ZŻŹĆĄŚĘŁÓŃ][a-zżźćńółęąś]+(-[A-ZŻŹĆĄŚĘŁÓŃ][a-zżźćńółęąś]+)?\\\"")
     );
   }
 
