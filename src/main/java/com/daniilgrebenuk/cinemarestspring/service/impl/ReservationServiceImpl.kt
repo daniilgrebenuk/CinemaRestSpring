@@ -37,7 +37,6 @@ class ReservationServiceImpl(
             availableSeats = availableSeats.map { dtoConverter.seatDtoFromSeat(it) }.toSet(),
             allHallSeats = schedule.hall.seats.map { dtoConverter.seatDtoFromSeat(it) }.toSet()
         )
-
         val ticketTypes = findAllTicketTypesAndVerify(reservationDto)
         val reservation = createReservationByReservationDtoAndSchedule(reservationDto, schedule)
         var totalPrice = 0.0
@@ -50,7 +49,7 @@ class ReservationServiceImpl(
                 }
             )
         }
-        return ConfirmationDto(totalPrice, calculateExpirationDate(schedule))
+        return ConfirmationDto(totalPrice, reservation.expireDate)
     }
 
     private fun calculateExpirationDate(schedule: Schedule): LocalDateTime {
@@ -81,6 +80,7 @@ class ReservationServiceImpl(
             this.schedule = schedule
             this.customerName = reservationDto.customerName
             this.customerSurname = reservationDto.customerSurname
+            this.expireDate = calculateExpirationDate(schedule)
         })
     }
 

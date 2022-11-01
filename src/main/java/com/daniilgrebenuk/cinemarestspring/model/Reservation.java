@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 
@@ -36,6 +37,8 @@ public class Reservation {
 
   private String customerName;
   private String customerSurname;
+
+  private LocalDateTime expireDate;
 
   public String getCustomerName() {
     return customerName;
@@ -59,6 +62,22 @@ public class Reservation {
 
   public void setSchedule(Schedule schedule) {
     this.schedule = schedule;
+  }
+
+  public Long getIdReservation() {
+    return idReservation;
+  }
+
+  public void setIdReservation(Long idReservation) {
+    this.idReservation = idReservation;
+  }
+
+  public LocalDateTime getExpireDate() {
+    return expireDate;
+  }
+
+  public void setExpireDate(LocalDateTime expireDate) {
+    this.expireDate = expireDate;
   }
 
   @Override
