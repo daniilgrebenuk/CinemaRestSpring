@@ -2,7 +2,12 @@ package com.daniilgrebenuk.cinemarestspring.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.Hibernate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,8 +15,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,14 +42,6 @@ public class Ticket {
   private Reservation reservation;
 
   private String uniqueCode;
-
-  public Long getIdTicket() {
-    return idTicket;
-  }
-
-  public void setIdTicket(Long idTicket) {
-    this.idTicket = idTicket;
-  }
 
   public Seat getSeat() {
     return seat;
@@ -67,11 +67,16 @@ public class Ticket {
     this.reservation = reservation;
   }
 
-  public String getUniqueCode() {
-    return uniqueCode;
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+    Ticket ticket = (Ticket) o;
+    return idTicket != null && Objects.equals(idTicket, ticket.idTicket);
   }
 
-  public void setUniqueCode(String uniqueCode) {
-    this.uniqueCode = uniqueCode;
+  @Override
+  public int hashCode() {
+    return getClass().hashCode();
   }
 }

@@ -62,7 +62,6 @@ public class ReservationControllerTest {
         correctReservationDto,
         ConfirmationDto.class
     );
-    System.out.println(response);
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(GlobalConstants.LOCAL_DATE_TIME_PATTERN);
 
     // Reservation is valid for either 2 hours or until the end of the possibility to reserve
@@ -198,7 +197,6 @@ public class ReservationControllerTest {
         correctReservationDto,
         String.class
     );
-    System.out.println(response.getBody());
     assertAll(
         () -> assertThat(response.getStatusCodeValue()).isEqualTo(400),
         () -> assertThat(response.getBody())

@@ -2,7 +2,12 @@ package com.daniilgrebenuk.cinemarestspring.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.Hibernate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,8 +16,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -42,5 +50,18 @@ public class Schedule {
 
   public LocalDateTime getTime() {
     return time;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+    Schedule schedule = (Schedule) o;
+    return idSchedule != null && Objects.equals(idSchedule, schedule.idSchedule);
+  }
+
+  @Override
+  public int hashCode() {
+    return getClass().hashCode();
   }
 }

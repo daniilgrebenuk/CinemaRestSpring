@@ -1,7 +1,13 @@
 package com.daniilgrebenuk.cinemarestspring.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.Hibernate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +17,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.util.Objects;
 
+
 @Entity
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class Seat {
@@ -27,58 +37,24 @@ public class Seat {
   private Integer seatRow;
   private Integer seatNumber;
 
-  public Long getIdSeat() {
-    return idSeat;
-  }
-
-  public void setIdSeat(Long idSeat) {
-    this.idSeat = idSeat;
-  }
-
-  public Hall getHall() {
-    return hall;
-  }
-
-  public void setHall(Hall hall) {
-    this.hall = hall;
-  }
-
   public Integer getSeatRow() {
     return seatRow;
-  }
-
-  public void setSeatRow(Integer seatRow) {
-    this.seatRow = seatRow;
   }
 
   public Integer getSeatNumber() {
     return seatNumber;
   }
 
-  public void setSeatNumber(Integer seatNumber) {
-    this.seatNumber = seatNumber;
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
     Seat seat = (Seat) o;
-    return Objects.equals(idSeat, seat.idSeat);
+    return idSeat != null && Objects.equals(idSeat, seat.idSeat);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(idSeat);
-  }
-
-  @Override
-  public String toString() {
-    return "Seat{" +
-        "idSeat=" + idSeat +
-        ", hall=" + hall +
-        ", seatRow=" + seatRow +
-        ", seatNumber=" + seatNumber +
-        '}';
+    return getClass().hashCode();
   }
 }
