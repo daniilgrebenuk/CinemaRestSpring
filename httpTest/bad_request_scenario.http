@@ -1,15 +1,15 @@
-GET http://localhost:8080/api/hall/schedule/9999
+GET http://localhost:8080/api/halls/schedule/9999
 
 > {%
 
 client.test("Get hall with incorrect idSchedule", () => {
-  client.assert(response.status === 400, "Status Bad request")
+  client.assert(response.status === 404, "Status Bad request")
   client.assert(response.body.errorMessage === 'Schedule with id: "9999" doesn\'t exist!')
 })
 %}
 
 ###
-POST http://localhost:8080/api/reserve/add
+POST http://localhost:8080/api/reservations
 Content-Type: application/json
 
 {
@@ -27,7 +27,7 @@ client.test("Reservation without seats", () => {
 %}
 
 ###
-POST http://localhost:8080/api/reserve/add
+POST http://localhost:8080/api/reservations
 Content-Type: application/json
 
 {
@@ -53,7 +53,7 @@ client.test("Reservation after schedule expiration date", () => {
 %}
 
 ###
-POST http://localhost:8080/api/reserve/add
+POST http://localhost:8080/api/reservations
 Content-Type: application/json
 
 {
@@ -96,7 +96,7 @@ client.test("Invalid ticket types", () => {
 %}
 
 ###
-POST http://localhost:8080/api/reserve/add
+POST http://localhost:8080/api/reservations
 Content-Type: application/json
 
 {
@@ -116,13 +116,13 @@ Content-Type: application/json
 
 > {%
 client.test("Reservation with incorrect idSchedule", () => {
-  client.assert(response.status === 400, "Status Bad request")
+  client.assert(response.status === 404, "Status Bad request")
   client.assert(response.body.errorMessage === 'There is no schedule suitable for this reservation!')
 })
 %}
 
 ###
-POST http://localhost:8080/api/reserve/add
+POST http://localhost:8080/api/reservations
 Content-Type: application/json
 
 {
@@ -155,7 +155,7 @@ client.test("Leaving an empty seat between two reserved", () => {
 %}
 
 ###
-POST http://localhost:8080/api/reserve/add
+POST http://localhost:8080/api/reservations
 Content-Type: application/json
 
 {
@@ -174,7 +174,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:8080/api/reserve/add
+POST http://localhost:8080/api/reservations
 Content-Type: application/json
 
 {

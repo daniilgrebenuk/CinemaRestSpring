@@ -1,4 +1,4 @@
-GET http://localhost:8080/api/schedules/all/range/?timeFrom=2022-01-01T0:00&timeTo=2022-12-31T23:59
+GET http://localhost:8080/api/schedules/range/?timeFrom=2022-01-01T0:00&timeTo=2022-12-31T23:59
 
 > {%
 client.global.set("idSchedule", response.body[2].idSchedule)
@@ -20,7 +20,7 @@ client.test("Get schedules in range successfully", () => {
 %}
 
 ###
-GET http://localhost:8080/api/hall/schedule/{{idSchedule}}
+GET http://localhost:8080/api/halls/schedule/{{idSchedule}}
 
 > {%
 
@@ -36,7 +36,7 @@ client.test("Get hall info successfully", () => {
 %}
 
 ###
-POST http://localhost:8080/api/reserve/add
+POST http://localhost:8080/api/reservations
 Content-Type: application/json
 
 {
