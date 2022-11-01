@@ -28,7 +28,7 @@ public class HallControllerTest {
   @Test
   void findHallByScheduleId() {
     ResponseEntity<HallDto> response = restTemplate.getForEntity(
-        String.format(defaultUrl, port, 3),
+        String.format(defaultUrl, port, 5),
         HallDto.class
     );
 
@@ -36,7 +36,7 @@ public class HallControllerTest {
 
     assertAll(
         () -> assertThat(response.getStatusCodeValue()).isEqualTo(200),
-        () -> assertThat(hallDto.map(HallDto::hallName).orElse(null)).isEqualTo("Blue"),
+        () -> assertThat(hallDto.map(HallDto::hallName).orElse(null)).isEqualTo("Green"),
         () -> assertThat(hallDto.map(HallDto::availableSeats).orElse(null)).hasSize(100)
     );
   }
