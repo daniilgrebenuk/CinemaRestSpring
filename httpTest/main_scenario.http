@@ -1,0 +1,78 @@
+GET http://localhost:8080/api/schedules/range/?timeFrom=2022-01-01T00:00&timeTo=2022-12-31T23:59
+
+> {%
+client.global.set("idSchedule", response.body[2].idSchedule)
+client.global.set("hallName", response.body[2].hallName)
+client.global.set("scheduleDate", response.body[2].time)
+
+client.test("Get schedules in range successfully", () => {
+  const bodyString = JSON.stringify(response.body)
+  client.assert(response.status === 200, "Status OK")
+  client.assert(bodyString.indexOf('BLACK ADAM') >= 0, "Must contain 'BLACK ADAM'")
+  client.assert(bodyString.indexOf('ONE PIECE') >= 0, "Must contain 'ONE PIECE'")
+  client.assert(bodyString.indexOf('NEL I TAJEMNICA KUROKOTA') >= 0, "Must contain 'NEL I TAJEMNICA KUROKOTA'")
+  client.assert(bodyString.indexOf('ANIA') >= 0, "Must contain 'ANIA'")
+  client.assert(bodyString.indexOf('UŚMIECHNIJ SIĘ') >= 0, "Must contain 'UŚMIECHNIJ SIĘ'")
+  client.assert(bodyString.indexOf('Red 3D') >= 0, "Must contain 'Red 3D'")
+  client.assert(bodyString.indexOf('Green') >= 0, "Must contain 'Green'")
+  client.assert(bodyString.indexOf('Blue') >= 0, "Must contain 'Blue'")
+})
+%}
+
+###
+GET http://localhost:8080/api/halls/schedule/{{idSchedule}}
+
+> {%
+
+client.global.set("ticket1", JSON.stringify( response.body.availableSeats[15]))
+client.global.set("ticket2", JSON.stringify( response.body.availableSeats[16]))
+client.global.set("ticket3", JSON.stringify( response.body.availableSeats[17]))
+
+client.test("Get hall info successfully", () => {
+  client.assert(response.status === 200, "Status must be OK")
+  client.assert(response.body.hallName.toString().trim() == client.global.get("hallName").toString().trim(), `Incorrect hall name`)
+})
+
+%}
+
+###
+POST http://localhost:8080/api/reservations
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": "{{idSchedule}}",
+  "tickets": [
+    {
+      "ticketType": "adult",
+      "seat": {{ticket1}}
+    },
+    {
+      "ticketType": "student",
+      "seat": {{ticket2}}
+    },
+    {
+      "ticketType": "child",
+      "seat": {{ticket3}}
+    }
+  ]
+}
+
+> {%
+client.test("Reservation is successful", () => {
+  client.assert(response.status === 200, "Status OK")
+  client.assert(response.body.totalSum === 55.5, "The total price must equal 55.5")
+  client.assert(validateDate(response.body.expireDate), "Expiration date must be after reservation and before movie")
+});
+
+function validateDate(expireDateString){
+  const expireDate = new Date(expireDateString);
+  const scheduleDate = new Date(client.global.get("scheduleDate"))
+  const currentDate = new Date()
+client.log(expireDate)
+client.log(scheduleDate)
+client.log(currentDate)
+  return currentDate < expireDate && expireDate < scheduleDate;
+}
+%}

@@ -1,0 +1,141 @@
+package com.daniilgrebenuk.cinemarestspring.service.impl
+
+import com.daniilgrebenuk.cinemarestspring.dtos.ConfirmationDto
+import com.daniilgrebenuk.cinemarestspring.dtos.ReservationDto
+import com.daniilgrebenuk.cinemarestspring.dtos.SeatDto
+import com.daniilgrebenuk.cinemarestspring.exception.DataNotFoundException
+import com.daniilgrebenuk.cinemarestspring.exception.InvalidReservationException
+import com.daniilgrebenuk.cinemarestspring.model.Reservation
+import com.daniilgrebenuk.cinemarestspring.model.Schedule
+import com.daniilgrebenuk.cinemarestspring.model.Ticket
+import com.daniilgrebenuk.cinemarestspring.model.TicketType
+import com.daniilgrebenuk.cinemarestspring.repository.*
+import com.daniilgrebenuk.cinemarestspring.service.ReservationService
+import com.daniilgrebenuk.cinemarestspring.util.DtoConverter
+import com.daniilgrebenuk.cinemarestspring.util.GlobalConstants
+import org.springframework.stereotype.Service
+import java.time.LocalDateTime
+
+@Service
+class ReservationServiceImpl(
+    private val scheduleRepository: ScheduleRepository,
+    private val ticketRepository: TicketRepository,
+    private val ticketTypeRepository: TicketTypeRepository,
+    private val seatRepository: SeatRepository,
+    private val reservationRepository: ReservationRepository,
+    private val dtoConverter: DtoConverter,
+) : ReservationService {
+
+    override fun reserveTickets(reservationDto: ReservationDto): ConfirmationDto {
+        verifyTicketsSize(reservationDto)
+
+        val schedule = findScheduleByReservationDtoAndVerifyTime(reservationDto)
+        val availableSeats = seatRepository.findAllAvailableSeatsByIdSchedule(schedule.idSchedule)
+
+        verifySeats(
+            seatsToReserve = reservationDto.tickets.map { it.seat }.toSet(),
+            availableSeats = availableSeats.map { dtoConverter.seatDtoFromSeat(it) }.toSet(),
+            allHallSeats = schedule.hall.seats.map { dtoConverter.seatDtoFromSeat(it) }.toSet()
+        )
+        val ticketTypes = findAllTicketTypesAndVerify(reservationDto)
+        val reservation = createReservationByReservationDtoAndSchedule(reservationDto, schedule)
+        var totalPrice = 0.0
+        reservationDto.tickets.forEach { ticketDto ->
+            ticketRepository.save(
+                Ticket().apply {
+                    this.seat = availableSeats.first { it.seatRow == ticketDto.seat.seatRow && it.seatNumber == ticketDto.seat.seatNumber }
+                    this.ticketType = ticketTypes.first { it.type == ticketDto.ticketType }.also { totalPrice += it.price }
+                    this.reservation = reservation
+                }
+            )
+        }
+        return ConfirmationDto(totalPrice, reservation.expireDate)
+    }
+
+    private fun calculateExpirationDate(schedule: Schedule): LocalDateTime {
+        val endOfReservation = schedule.time.minusMinutes(15)
+
+        return LocalDateTime
+            .now()
+            .plusHours(GlobalConstants.EXPIRATION_TIME_IN_HOURS)
+            .withSecond(0)
+            .withNano(0)
+            .let {
+
+                if (it < endOfReservation)
+                    it
+                else
+                    endOfReservation
+            }
+    }
+
+    private fun verifyTicketsSize(reservationDto: ReservationDto) {
+        if (reservationDto.tickets.size == 0) {
+            throw InvalidReservationException("You must select at least one seat!")
+        }
+    }
+
+    private fun createReservationByReservationDtoAndSchedule(reservationDto: ReservationDto, schedule: Schedule): Reservation {
+        return reservationRepository.save(Reservation().apply {
+            this.schedule = schedule
+            this.customerName = reservationDto.customerName
+            this.customerSurname = reservationDto.customerSurname
+            this.expireDate = calculateExpirationDate(schedule)
+        })
+    }
+
+    private fun verifyTime(schedule: Schedule) {
+        if (schedule.time < LocalDateTime.now().plusMinutes(15)) {
+            throw InvalidReservationException("Tickets can only be purchased 15 minutes before the start!")
+        }
+    }
+
+    private fun findAllTicketTypesAndVerify(reservationDto: ReservationDto): List<TicketType> {
+        return ticketTypeRepository.findAll().also { ticketTypes ->
+            (reservationDto.tickets.map { it.ticketType }.toSet() - ticketTypes.map { it.type }.toSet()).also { invalidTicketTypes ->
+                    if (invalidTicketTypes.isNotEmpty()) {
+                        throw InvalidReservationException("Invalid ticket types specified: $invalidTicketTypes")
+                    }
+                }
+        }
+    }
+
+    private fun findScheduleByReservationDtoAndVerifyTime(reservationDto: ReservationDto): Schedule {
+        return scheduleRepository.findById(reservationDto.idSchedule)
+            .orElseThrow { DataNotFoundException("There is no schedule suitable for this reservation!") }
+            .also { verifyTime(it) }
+    }
+
+    private fun verifySeats(seatsToReserve: Set<SeatDto>, availableSeats: Set<SeatDto>, allHallSeats: Set<SeatDto>) {
+        verifyThatAvailableSeatsContainsSeatsToReserve(seatsToReserve, availableSeats)
+
+        val availableAfterPurchase = availableSeats - seatsToReserve
+        if (hasEmptySeatBetweenTwoReserved((allHallSeats - availableAfterPurchase).toList())) {
+            throw InvalidReservationException("You cannot leave an available seat between two reserved seats!")
+        }
+    }
+
+    private fun verifyThatAvailableSeatsContainsSeatsToReserve(seatsToReserve: Set<SeatDto>, availableSeats: Set<SeatDto>) {
+        val errorSeats = ArrayList<SeatDto>()
+        seatsToReserve.forEach {
+            if (it !in availableSeats)
+                errorSeats += it
+        }
+        if (errorSeats.size != 0) {
+            throw InvalidReservationException("Input seats are already reserved: $errorSeats")
+        }
+    }
+
+    private fun hasEmptySeatBetweenTwoReserved(reservedSeats: List<SeatDto>): Boolean {
+        reservedSeats
+            .sortedWith(compareBy({ it.seatRow }, { it.seatNumber }))
+            .take(reservedSeats.size - 1)
+            .forEachIndexed { index, seat ->
+                if (seat.seatRow == reservedSeats[index + 1].seatRow && seat.seatNumber + 2 == reservedSeats[index + 1].seatNumber) {
+                    return true
+                }
+            }
+        return false
+    }
+
+}
