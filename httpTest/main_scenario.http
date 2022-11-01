@@ -1,4 +1,4 @@
-GET http://localhost:8080/api/schedules/range/?timeFrom=2022-01-01T0:00&timeTo=2022-12-31T23:59
+GET http://localhost:8080/api/schedules/range/?timeFrom=2022-01-01T00:00&timeTo=2022-12-31T23:59
 
 > {%
 client.global.set("idSchedule", response.body[2].idSchedule)
@@ -70,7 +70,9 @@ function validateDate(expireDateString){
   const expireDate = new Date(expireDateString);
   const scheduleDate = new Date(client.global.get("scheduleDate"))
   const currentDate = new Date()
-
+client.log(expireDate)
+client.log(scheduleDate)
+client.log(currentDate)
   return currentDate < expireDate && expireDate < scheduleDate;
 }
 %}

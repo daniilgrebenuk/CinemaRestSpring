@@ -16,6 +16,341 @@ Content-Type: application/json
   ]
 }
 
+<> 2022-11-01T231633.400.json
+
+###
+
+POST http://localhost:8080/api/reservations
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": [
+    {
+      "ticketType": "child",
+      "seat": {
+        "seatRow": 9,
+        "seatNumber": 1
+      }
+    }
+  ]
+}
+
+<> 2022-11-01T231632.200.json
+
+###
+
+POST http://localhost:8080/api/reservations
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": [
+    {
+      "ticketType": "child",
+      "seat": {
+        "seatRow": 1,
+        "seatNumber": 1
+      }
+    },
+    {
+      "ticketType": "child",
+      "seat": {
+        "seatRow": 1,
+        "seatNumber": 3
+      }
+    }
+  ]
+}
+
+<> 2022-11-01T231632-3.400.json
+
+###
+
+POST http://localhost:8080/api/reservations
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": -1,
+  "tickets": [
+    {
+      "ticketType": "child",
+      "seat": {
+        "seatRow": 2,
+        "seatNumber": 4
+      }
+    }
+  ]
+}
+
+<> 2022-11-01T231632-1.404.json
+
+###
+
+POST http://localhost:8080/api/reservations
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": [
+    {
+      "ticketType": "firstInvalidType",
+      "seat": {
+        "seatRow": 2,
+        "seatNumber": 4
+      }
+    },
+    {
+      "ticketType": "secondInvalidType",
+      "seat": {
+        "seatRow": 2,
+        "seatNumber": 5
+      }
+    },
+    {
+      "ticketType": "thirdInvalidType",
+      "seat": {
+        "seatRow": 2,
+        "seatNumber": 6
+      }
+    }
+  ]
+}
+
+<> 2022-11-01T231632-2.400.json
+
+###
+
+POST http://localhost:8080/api/reservations
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 1,
+  "tickets": [
+    {
+      "ticketType": "child",
+      "seat": {
+        "seatRow": 2,
+        "seatNumber": 4
+      }
+    }
+  ]
+}
+
+<> 2022-11-01T231632-1.400.json
+
+###
+
+POST http://localhost:8080/api/reservations
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": []
+}
+
+<> 2022-11-01T231632.400.json
+
+###
+
+GET http://localhost:8080/api/halls/schedule/9999
+
+<> 2022-11-01T231632.404.json
+
+###
+
+POST http://localhost:8080/api/reservations
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": "6",
+  "tickets": [
+    {
+      "ticketType": "adult",
+      "seat": {"seatRow":2,"seatNumber":9}
+    },
+    {
+      "ticketType": "student",
+      "seat": {"seatRow":2,"seatNumber":10}
+    },
+    {
+      "ticketType": "child",
+      "seat": {"seatRow":3,"seatNumber":1}
+    }
+  ]
+}
+
+<> 2022-11-01T231607-2.200.json
+
+###
+
+GET http://localhost:8080/api/halls/schedule/6
+
+<> 2022-11-01T231607-1.200.json
+
+###
+
+GET http://localhost:8080/api/schedules/range/?timeFrom=2022-01-01T00:00&timeTo=2022-12-31T23:59
+
+<> 2022-11-01T231607.200.json
+
+###
+
+POST http://localhost:8080/api/reservations
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": "6",
+  "tickets": [
+    {
+      "ticketType": "adult",
+      "seat": {"seatRow":2,"seatNumber":6}
+    },
+    {
+      "ticketType": "student",
+      "seat": {"seatRow":2,"seatNumber":7}
+    },
+    {
+      "ticketType": "child",
+      "seat": {"seatRow":2,"seatNumber":8}
+    }
+  ]
+}
+
+<> 2022-11-01T231559-1.200.json
+
+###
+
+GET http://localhost:8080/api/halls/schedule/6
+
+<> 2022-11-01T231559.200.json
+
+###
+
+GET http://localhost:8080/api/schedules/range/?timeFrom=2022-01-01T0:00&timeTo=2022-12-31T23:59
+
+<> 2022-11-01T231559.500.json
+
+###
+
+POST http://localhost:8080/api/reservations
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": "6",
+  "tickets": [
+    {
+      "ticketType": "adult",
+      "seat": {"seatRow":2,"seatNumber":9}
+    },
+    {
+      "ticketType": "student",
+      "seat": {"seatRow":2,"seatNumber":10}
+    },
+    {
+      "ticketType": "child",
+      "seat": {"seatRow":3,"seatNumber":1}
+    }
+  ]
+}
+
+<> 2022-11-01T231336-1.200.json
+
+###
+
+GET http://localhost:8080/api/halls/schedule/6
+
+<> 2022-11-01T231336.200.json
+
+###
+
+GET http://localhost:8080/api/schedules/range/?timeFrom=2022-01-01T0:00&timeTo=2022-12-31T23:59
+
+<> 2022-11-01T231335.200.json
+
+###
+
+POST http://localhost:8080/api/reservations
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": "6",
+  "tickets": [
+    {
+      "ticketType": "adult",
+      "seat": {"seatRow":2,"seatNumber":6}
+    },
+    {
+      "ticketType": "student",
+      "seat": {"seatRow":2,"seatNumber":7}
+    },
+    {
+      "ticketType": "child",
+      "seat": {"seatRow":2,"seatNumber":8}
+    }
+  ]
+}
+
+<> 2022-11-01T231149-2.200.json
+
+###
+
+GET http://localhost:8080/api/halls/schedule/6
+
+<> 2022-11-01T231149-1.200.json
+
+###
+
+GET http://localhost:8080/api/schedules/range/?timeFrom=2022-01-01T0:00&timeTo=2022-12-31T23:59
+
+<> 2022-11-01T231149.200.json
+
+###
+
+GET http://localhost:8080/api/schedules/range/?timeFrom=2022-01-01T0:00&timeTo=2022-12-31T23:59
+
+<> 2022-11-01T230957.500.json
+
+###
+
+POST http://localhost:8080/api/reservations
+Content-Type: application/json
+
+{
+  "customerName": "Bob",
+  "customerSurname": "Bob",
+  "idSchedule": 3,
+  "tickets": [
+    {
+      "ticketType": "child",
+      "seat": {
+        "seatRow": 9,
+        "seatNumber": 1
+      }
+    }
+  ]
+}
+
 <> 2022-11-01T181041-1.400.json
 
 ###
@@ -537,435 +872,6 @@ Content-Type: application/json
 }
 
 <> 2022-11-01T180850-1.400.json
-
-###
-
-POST http://localhost:8080/api/reservations
-Content-Type: application/json
-
-{
-  "customerName": "Bob",
-  "customerSurname": "Bob",
-  "idSchedule": -1,
-  "tickets": [
-    {
-      "ticketType": "child",
-      "seat": {
-        "seatRow": 2,
-        "seatNumber": 4
-      }
-    }
-  ]
-}
-
-<> 2022-11-01T180850.404.json
-
-###
-
-POST http://localhost:8080/api/reservations
-Content-Type: application/json
-
-{
-  "customerName": "Bob",
-  "customerSurname": "Bob",
-  "idSchedule": 3,
-  "tickets": [
-    {
-      "ticketType": "firstInvalidType",
-      "seat": {
-        "seatRow": 2,
-        "seatNumber": 4
-      }
-    },
-    {
-      "ticketType": "secondInvalidType",
-      "seat": {
-        "seatRow": 2,
-        "seatNumber": 5
-      }
-    },
-    {
-      "ticketType": "thirdInvalidType",
-      "seat": {
-        "seatRow": 2,
-        "seatNumber": 6
-      }
-    }
-  ]
-}
-
-<> 2022-11-01T180850.400.json
-
-###
-
-POST http://localhost:8080/api/reservations
-Content-Type: application/json
-
-{
-  "customerName": "Bob",
-  "customerSurname": "Bob",
-  "idSchedule": 1,
-  "tickets": [
-    {
-      "ticketType": "child",
-      "seat": {
-        "seatRow": 2,
-        "seatNumber": 4
-      }
-    }
-  ]
-}
-
-<> 2022-11-01T180849-1.400.json
-
-###
-
-POST http://localhost:8080/api/reservations
-Content-Type: application/json
-
-{
-  "customerName": "Bob",
-  "customerSurname": "Bob",
-  "idSchedule": 3,
-  "tickets": []
-}
-
-<> 2022-11-01T180849.400.json
-
-###
-
-GET http://localhost:8080/api/halls/schedule/9999
-
-<> 2022-11-01T180849.404.json
-
-###
-
-POST http://localhost:8080/api/reserve/add
-Content-Type: application/json
-
-{
-  "customerName": "Bob",
-  "customerSurname": "Bob",
-  "idSchedule": 3,
-  "tickets": [
-    {
-      "ticketType": "child",
-      "seat": {
-        "seatRow": 9,
-        "seatNumber": 1
-      }
-    }
-  ]
-}
-
-<> 2022-10-31T180351-3.400.json
-
-###
-
-POST http://localhost:8080/api/reserve/add
-Content-Type: application/json
-
-{
-  "customerName": "Bob",
-  "customerSurname": "Bob",
-  "idSchedule": 3,
-  "tickets": [
-    {
-      "ticketType": "child",
-      "seat": {
-        "seatRow": 9,
-        "seatNumber": 1
-      }
-    }
-  ]
-}
-
-<> 2022-10-31T180351-2.400.json
-
-###
-
-POST http://localhost:8080/api/reserve/add
-Content-Type: application/json
-
-{
-  "customerName": "Bob",
-  "customerSurname": "Bob",
-  "idSchedule": 3,
-  "tickets": [
-    {
-      "ticketType": "child",
-      "seat": {
-        "seatRow": 9,
-        "seatNumber": 1
-      }
-    }
-  ]
-}
-
-<> 2022-10-31T180351.200.json
-
-###
-
-POST http://localhost:8080/api/reserve/add
-Content-Type: application/json
-
-{
-  "customerName": "Bob",
-  "customerSurname": "Bob",
-  "idSchedule": 3,
-  "tickets": [
-    {
-      "ticketType": "child",
-      "seat": {
-        "seatRow": 1,
-        "seatNumber": 1
-      }
-    },
-    {
-      "ticketType": "child",
-      "seat": {
-        "seatRow": 1,
-        "seatNumber": 3
-      }
-    }
-  ]
-}
-
-<> 2022-10-31T180351-1.400.json
-
-###
-
-POST http://localhost:8080/api/reserve/add
-Content-Type: application/json
-
-{
-  "customerName": "Bob",
-  "customerSurname": "Bob",
-  "idSchedule": -1,
-  "tickets": [
-    {
-      "ticketType": "child",
-      "seat": {
-        "seatRow": 2,
-        "seatNumber": 4
-      }
-    }
-  ]
-}
-
-<> 2022-10-31T180351.400.json
-
-###
-
-POST http://localhost:8080/api/reserve/add
-Content-Type: application/json
-
-{
-  "customerName": "Bob",
-  "customerSurname": "Bob",
-  "idSchedule": 3,
-  "tickets": [
-    {
-      "ticketType": "firstInvalidType",
-      "seat": {
-        "seatRow": 2,
-        "seatNumber": 4
-      }
-    },
-    {
-      "ticketType": "secondInvalidType",
-      "seat": {
-        "seatRow": 2,
-        "seatNumber": 5
-      }
-    },
-    {
-      "ticketType": "thirdInvalidType",
-      "seat": {
-        "seatRow": 2,
-        "seatNumber": 6
-      }
-    }
-  ]
-}
-
-<> 2022-10-31T180350-3.400.json
-
-###
-
-POST http://localhost:8080/api/reserve/add
-Content-Type: application/json
-
-{
-  "customerName": "Bob",
-  "customerSurname": "Bob",
-  "idSchedule": 1,
-  "tickets": [
-    {
-      "ticketType": "child",
-      "seat": {
-        "seatRow": 2,
-        "seatNumber": 4
-      }
-    }
-  ]
-}
-
-<> 2022-10-31T180350-2.400.json
-
-###
-
-POST http://localhost:8080/api/reserve/add
-Content-Type: application/json
-
-{
-  "customerName": "Bob",
-  "customerSurname": "Bob",
-  "idSchedule": 3,
-  "tickets": []
-}
-
-<> 2022-10-31T180350-1.400.json
-
-###
-
-GET http://localhost:8080/api/hall/schedule/9999
-
-<> 2022-10-31T180350.400.json
-
-###
-
-POST http://localhost:8080/api/reserve/add
-Content-Type: application/json
-
-{
-  "customerName": "Bob",
-  "customerSurname": "Bob",
-  "idSchedule": "6",
-  "tickets": [
-    {
-      "ticketType": "adult",
-      "seat": {"seatRow":2,"seatNumber":6}
-    },
-    {
-      "ticketType": "student",
-      "seat": {"seatRow":2,"seatNumber":7}
-    },
-    {
-      "ticketType": "child",
-      "seat": {"seatRow":2,"seatNumber":8}
-    }
-  ]
-}
-
-<> 2022-10-31T180348.200.json
-
-###
-
-GET http://localhost:8080/api/hall/schedule/6
-
-<> 2022-10-31T180347-1.200.json
-
-###
-
-GET http://localhost:8080/api/schedules/all/range/?timeFrom=2022-01-01T0:00&timeTo=2022-12-31T23:59
-
-<> 2022-10-31T180347.200.json
-
-###
-
-POST http://localhost:8080/api/reserve/add
-Content-Type: application/json
-
-{
-  "customerName": "Bob",
-  "customerSurname": "Bob",
-  "idSchedule": 3,
-  "tickets": [
-    {
-      "ticketType": "child",
-      "seat": {
-        "seatRow": 9,
-        "seatNumber": 1
-      }
-    }
-  ]
-}
-
-<> 2022-10-31T144408-6.400.json
-
-###
-
-POST http://localhost:8080/api/reserve/add
-Content-Type: application/json
-
-{
-  "customerName": "Bob",
-  "customerSurname": "Bob",
-  "idSchedule": 3,
-  "tickets": [
-    {
-      "ticketType": "child",
-      "seat": {
-        "seatRow": 9,
-        "seatNumber": 1
-      }
-    }
-  ]
-}
-
-<> 2022-10-31T144408-5.400.json
-
-###
-
-POST http://localhost:8080/api/reserve/add
-Content-Type: application/json
-
-{
-  "customerName": "Bob",
-  "customerSurname": "Bob",
-  "idSchedule": 3,
-  "tickets": [
-    {
-      "ticketType": "child",
-      "seat": {
-        "seatRow": 9,
-        "seatNumber": 1
-      }
-    }
-  ]
-}
-
-<> 2022-10-31T144408-4.400.json
-
-###
-
-POST http://localhost:8080/api/reserve/add
-Content-Type: application/json
-
-{
-  "customerName": "Bob",
-  "customerSurname": "Bob",
-  "idSchedule": 3,
-  "tickets": [
-    {
-      "ticketType": "child",
-      "seat": {
-        "seatRow": 1,
-        "seatNumber": 1
-      }
-    },
-    {
-      "ticketType": "child",
-      "seat": {
-        "seatRow": 1,
-        "seatNumber": 3
-      }
-    }
-  ]
-}
-
-<> 2022-10-31T144408-3.400.json
 
 ###
 
